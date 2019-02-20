@@ -1,0 +1,63 @@
+<h1>
+  All clubs
+</h1>
+
+<a href="/clubs/new">
+  Add a new club
+</a>
+
+<hr>
+
+<table class="table">
+  <tr>
+
+    <th>
+      Image
+    </th>
+
+    <th>
+      Title
+    </th>
+
+    <th>
+      Blurb
+    </th>
+
+    <th>
+      Summary
+    </th>
+
+
+
+    <th>
+    </th>
+  </tr>
+
+  <% @clubs.each do |club| %>
+  <tr>
+    <td>
+      <img src="<%= club.source %>" width="80">
+    </td>
+
+    <td>
+      <%= club.title %>
+    </td>
+
+    <td>
+      <%= club.blurb %>
+    </td>
+
+    <td>
+      <%= truncate(club.summary) %>
+    </td>
+
+
+
+    <td>
+      <a href="/clubs/<%= club.id %>" class="btn btn-primary">
+        Show details
+      </a>
+    </td>
+  </tr>
+  <% end %>
+</table>

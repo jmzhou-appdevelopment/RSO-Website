@@ -1,0 +1,37 @@
+<h1>
+  Add a new tag
+</h1>
+
+
+<hr>
+
+<form action="/create_tag" method="post">
+
+  <div class="form-group">
+    <label for="club_id">
+      Club
+    </label>
+
+     <%= select_tag("club_id", options_from_collection_for_select(Club.all, :id, :title, @tag.try(:club_id)), :class => "form-control") %>
+  or <a href="/clubs/new">add a new club</a> first
+  </div>
+
+  <div class="form-group">
+    <label for="category_id">
+      Category
+    </label>
+
+    <%= select_tag("category_id", options_from_collection_for_select(Category.all, :id, :description, @tag.try(:club_id)), :class => "form-control") %>
+  or <a href="/clubs/new">add a new club</a> first
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create tag
+  </button>
+</form>
+
+<hr>
+
+<a href="/tags">
+  Go back
+</a>

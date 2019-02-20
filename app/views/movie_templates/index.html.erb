@@ -29,6 +29,10 @@
     <th>
       Description
     </th>
+    
+    <th>
+      Director
+    </th>
 
     <th>
     </th>
@@ -54,6 +58,12 @@
 
     <td>
       <%= movie.description %>
+    </td>
+    
+    <td>
+      <a href="/directors/<%= movie.director.id %>">
+        <%= movie.director.name %>
+      </a>
     </td>
 
     <td>

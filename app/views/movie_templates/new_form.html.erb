@@ -1,3 +1,16 @@
+<% if @movie.present? %>
+  <% @movie.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <%= message %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+  <% end %>
+<% end %>
+
+
 <h1>
   Add a new movie
 </h1>
@@ -49,7 +62,16 @@
 
     <input type="text" id="image_url" name="image_url" class="form-control">
   </div>
+  
+  <!-- Label and input for director_id -->
+  <div class="form-group">
+    <label for="director_id">
+      Director
+    </label>
 
+    <%= select_tag("director_id", options_from_collection_for_select(Director.all, :id, :name, @movie.try(:director_id)), :class => "form-control") %>
+  </div>
+or <a href="/directors/new">Add a new director</a> first
   <button class="btn btn-block btn-outline-secondary">
     Create movie
   </button>

@@ -1,0 +1,66 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      All characters
+    </h1>
+
+    <a href="/characters/new" class="btn btn-block btn-outline-secondary">
+      Add a new character
+    </a>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+         <th>
+          ID
+        </th>
+        <th>
+          Name
+        </th>
+
+        <th>
+          Movie
+        </th>
+
+        <th>
+          Actor
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @characters.each do |character| %>
+      <tr>
+         <td>
+          <%= character.id %>
+        </td>
+        <td>
+          <%= character.name %>
+        </td>
+
+        <td>
+          <a href="/movies/<%= character.movie_id %>"><%= Movie.find(character.movie_id).title %></a>
+        </td>
+
+        <td>
+          <a href="/actors/<%= character.actor_id %>"><%= Actor.find(character.actor_id).name %></a>
+        </td>
+ 
+
+        <td>
+          <a href="/characters/<%= character.id %>" class="btn btn-primary">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,154 @@
+<div class="jumbotron jumbotron-fluid text-center">
+    <h1 class="display-4">Search Clubs & Events</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-1">
+        
+    </div>
+<div class="col-md-2 mt-5">
+<div class="card" style="width: 16rem;">
+  <div class="card-header text-center">
+    Type
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="club">
+        <label class="custom-control-label" for="club">Clubs</label>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="events">
+        <label class="custom-control-label" for="events">Events</label>
+      </div>
+    </li>
+  </ul>
+</div>
+</br>
+
+<div class="card" style="width: 16rem;">
+  <div class="card-header text-center">
+    Categories
+  </div>
+  <ul class="list-group list-group-flush">
+    <% @categories.each do |category| %>
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="<%= category.id%>">
+        <label class="custom-control-label" for="<%= category.id%>"><%= category.description %></label>
+      </div>
+    </li>
+<% end %>
+  </ul>
+</div>
+</div>
+<div class="col-md-9 pl-5">
+
+<div class="row">
+<% count=0 %>
+<% @clubs.each do |club| %>
+
+<% if(count%3 == 0) %>
+</div>
+<div class="row mt-5">
+<% end %>
+    <div class="col-md-3">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="<%= club.source %>" alt="Card image cap" style="height:200px">
+            <div class="card-body">
+                <h5 class="card-title"><%= club.title %></h5>
+                <p class="card-text"><%= club.blurb %></p>
+                <p class="card-text"><%= club.students.count %> members</p>
+                <div class="row">
+                  <div class="col-md-6">
+                    <a href="/clubs/<%= club.id %>" class="btn btn-outline-info">
+                Full profile
+                    </a>
+                  </div>
+                  <div class="col-md-6">
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".<%= club.id %>">
+              Quickview
+            </button>
+                  </div>
+            </div>
+            </div>
+            
+
+<div class="modal fade <%= club.id %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h3 class="col-12 modal-title text-center"><%= club.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+             <div class="card" style="width: 100%">
+              <div class="card-body">
+                <h5 class="card-title">Summary</h5>
+                <p class="card-text">
+                  <%= club.summary %>
+                </p>
+              </div>
+            </div>
+            <div class="card" style="width: 100%">
+              <div class="card-body">
+                <h5 class="card-title">Schedule & Location</h5>
+                <p class="card-text">
+                  <%= club.summary %>
+                </p>
+              </div>
+            </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card" style="width: 100%">
+                <div class="card-body">
+                  <h5 class="card-title">Summary</h5>
+                  <p class="card-text">
+                    <%= club.summary %>
+                  </p>
+                </div>
+              </div>
+              <div class="card" style="width: 100%">
+                <div class="card-body">
+                  <h5 class="card-title">Schedule & Location</h5>
+                  <p class="card-text">
+                    <%= club.summary %>
+                    </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <a href="/clubs/<%= club.id %>" class="btn btn-outline-info">
+                View full profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            
+        </div>
+    </div>
+    <% count = count + 1 %>
+    <% end %>
+</div>
+
+</div>
+
+</div>
+
+<form action="/clubs" method="post" >
+  <label><input type="checkbox" value="">Option 1</label>
+</form>

@@ -1,0 +1,40 @@
+<% if @student.present? %>
+  <% @student.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <%= message %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+  <% end %>
+<% end %>
+
+
+<h1>
+  Add a new student
+</h1>
+
+<hr>
+
+<form action="/create_student" method="post">
+  <!-- Label and input for title -->
+  <div class="form-group">
+    <label for="name">
+      Name
+    </label>
+
+    <input type="text" id="name" name="name" class="form-control">
+  </div>
+
+  
+  <button class="btn btn-block btn-outline-secondary">
+    Create student
+  </button>
+</form>
+
+<hr>
+
+<a href="/students">
+  Go back
+</a>

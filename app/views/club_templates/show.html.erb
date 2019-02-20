@@ -1,0 +1,89 @@
+
+<h1>
+  Club #<%= @club.id %> details
+</h1>
+
+<a href="/clubs/<%= @club.id %>/edit">
+  Edit club
+</a>
+
+<hr>
+
+<dl>
+  <dt>
+    Title
+  </dt>
+  <dd>
+    <%= @club.title %>
+  </dd>
+
+  <dt>
+    Blurb
+  </dt>
+  <dd>
+    <%= @club.blurb %>
+  </dd>
+
+  <dt>
+    Summary
+  </dt>
+  <dd>
+    <%= @club.summary %>
+  </dd>
+
+  <dt>
+    Image
+  </dt>
+  <dd>
+    <img src="<%= @club.source %>" width="320">
+  </dd>
+</dl>
+
+<a href="/delete_club/<%= @club.id %>" class="btn btn-danger">
+  Delete club
+</a>
+
+<hr>
+
+<a href="/clubs">
+  Go back
+</a>
+
+<div class="card mt-4">
+  <div class="card-header">
+    Members (<%= @club.students.count %>)
+  </div>
+  <ul class="list-group list-group-flush">
+     <% @club.students.each do |student| %>
+    <li class="list-group-item">
+      <a href="/students/<%= student.id %>">
+      <%= student.name %>
+      </a>  
+    </li>
+    <% end %>
+  </ul>
+  <div class="card-header">
+    Add a new student to this club.
+  </div>
+  <div class="p-5">
+  <form action="/create_enrollment" method="post" >
+  <!-- Label and input for title -->
+  <div class="form-group">
+    <label for="student_id">
+      Student
+    </label>
+
+    <%= select_tag("student_id", options_from_collection_for_select(Student.all, :id, :name, @club.try(:student_id)), :class => "form-control") %>
+  or <a href="/students/new">add a new student</a> first
+  </div>
+  
+  <input type="hidden" name="club_id" value="<%= @club.id %>">
+  
+  <button class="btn btn-block btn-outline-secondary">
+    Create enrollment
+  </button>
+  </div>
+
+</form>
+</div>
+</div>

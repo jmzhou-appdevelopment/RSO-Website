@@ -1,0 +1,63 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      All enrollments
+    </h1>
+
+    <a href="/enrollments/new" class="btn btn-block btn-outline-secondary">
+      Add a new enrollment
+    </a>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Club
+        </th>
+
+        <th>
+          Student
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @enrollments.each do |enrollment| %>
+      <tr>
+        <td>
+          <%= enrollment.id %>
+        </td>
+
+        <td>
+          <a href="clubs/<%= enrollment.club_id %>">
+            <%= enrollment.club.title %>
+          </a>
+        </td>
+
+        <td>
+          <a href="students/<%= enrollment.student_id %>">
+            <%= enrollment.student.name %>
+          </a>
+        </td>
+
+        <td>
+          <a href="/enrollments/<%= enrollment.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

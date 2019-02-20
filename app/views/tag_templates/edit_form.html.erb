@@ -1,0 +1,34 @@
+<h1>
+  Edit tag #<%= @tag.id %>
+</h1>
+
+<hr>
+
+<form action="/update_tag/<%= @tag.id %>" method="post">
+
+  <div class="form-group">
+    <label for="club_id">
+      Club
+    </label>
+
+    <input type="text" id="club_id" name="club_id" class="form-control" value="<%= @tag.club_id %>">
+  </div>
+
+  <div class="form-group">
+    <label for="category_id">
+      Category
+    </label>
+
+    <input type="text" id="category_id" name="category_id" class="form-control" value="<%= @tag.category_id %>">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Update tag
+  </button>
+</form>
+
+<hr>
+
+<a href="/tags">
+  Go back
+</a>

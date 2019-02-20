@@ -1,0 +1,26 @@
+<h1>
+  Edit student #<%= @student.id %>
+</h1>
+
+<hr>
+
+<form action="/update_student/<%= @student.id %>" >
+  <!-- Label and input for dob -->
+  <div class="form-group">
+    <label for="name">
+      Name
+    </label>
+
+    <input type="text" id="name" name="name" class="form-control" value="<%= @student.name %>">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Update student
+  </button>
+</form>
+
+<hr>
+
+<a href="/directors">
+  Go back
+</a>

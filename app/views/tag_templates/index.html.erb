@@ -1,0 +1,78 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      All tags
+    </h1>
+
+    <a href="/tags/new" class="btn btn-block btn-outline-secondary">
+      Add a new tag
+    </a>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Club
+        </th>
+
+        <th>
+          Category
+        </th>
+
+        <th>
+          Created at
+        </th>
+
+        <th>
+          Updated at
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @tags.each do |tag| %>
+      <tr>
+        <td>
+          <%= tag.id %>
+        </td>
+
+        <td>
+          <a href="/clubs/<%= tag.club.id %>">
+            <%= tag.club.title %>
+          </a>
+        </td>
+
+        <td>
+          <a href="/categories/<%= tag.category.id %>">
+            <%= tag.category.description %>
+          </a>
+        </td>
+
+        <td>
+          <%= time_ago_in_words(tag.created_at) %> ago
+        </td>
+        <td>
+          <%= time_ago_in_words(tag.updated_at) %> ago
+        </td>
+
+        <td>
+          <a href="/tags/<%= tag.id %>">
+            Show details
+          </a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

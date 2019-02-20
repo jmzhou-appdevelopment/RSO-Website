@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MSM Associations</title>
+    <title>My project (RSO)</title>
     <%= csrf_meta_tags %>
 
     <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
@@ -27,17 +27,21 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">MSM Associations</a>
+      <a class="navbar-brand" href="/">RSO site</a>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item"><a class="nav-link" href="/directors">Directors</a></li>
-          <li class="nav-item"><a class="nav-link" href="/movies">Movies</a></li>
-          <li class="nav-item"><a class="nav-link" href="/actors">Actors</a></li>
+          <li class="nav-item"><a class="nav-link" href="/clubs">Clubs</a></li>
+          <li class="nav-item"><a class="nav-link" href="/events">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="/students">Students</a></li>
+          <li class="nav-item"><a class="nav-link" href="/enrollments">Enrollments</a></li>
+          <li class="nav-item"><a class="nav-link" href="/attendances">Attendance</a></li>
+          <li class="nav-item"><a class="nav-link" href="/clubssearch">Search</a></li>
+          <li class="nav-item"><a class="nav-link" href="/categories">Categories</a></li>
+          <li class="nav-item"><a class="nav-link" href="/tags">Tags</a></li>
         </ul>
       </div>
     </nav>
-    <div class="container mt-4">
       <% if notice.present? %>
         <div class="alert alert-dismissable alert-success">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -51,8 +55,9 @@
           <%= alert %>
         </div>
       <% end %>
-      <%= yield %>
     </div>
+      <%= yield %>
+
 
     <%= dev_tools if Rails.env.development? %>
   </body>

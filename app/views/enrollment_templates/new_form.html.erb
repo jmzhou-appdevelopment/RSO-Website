@@ -1,0 +1,48 @@
+<% if @enrollment.present? %>
+  <% @enrollment.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <%= message %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+  <% end %>
+<% end %>
+
+<h1>
+  Add a new enrollment
+</h1>
+
+
+<hr>
+
+<form action="/create_enrollment" method="post">
+
+  <div class="form-group">
+    <label for="club_id">
+      Club
+    </label>
+<%= select_tag("club_id", options_from_collection_for_select(Club.all, :id, :title, @student.try(:club_id)), :class => "form-control") %>
+  or <a href="/clubs/new">add a new club</a> first
+  </div>
+
+  <div class="form-group">
+    <label for="student_id">
+      Student
+    </label>
+
+   <%= select_tag("student_id", options_from_collection_for_select(Student.all, :id, :name, @club.try(:student_id)), :class => "form-control") %>
+  or <a href="/students/new">add a new student</a> first
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create enrollment
+  </button>
+</form>
+
+<hr>
+
+<a href="/enrollments">
+  Go back
+</a>

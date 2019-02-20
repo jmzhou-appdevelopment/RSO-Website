@@ -1,0 +1,57 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      Tag #<%= @tag.id %> details
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/tags" class="btn btn-block btn-outline-secondary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/tags/<%= @tag.id %>/edit" class="btn btn-block btn-outline-secondary">
+          Edit tag
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/delete_tag/<%= @tag.id %>" class="btn btn-block btn-outline-secondary">
+          Delete tag
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Club
+      </dt>
+      <dd>
+        <%= @tag.club %>
+      </dd>
+
+      <dt>
+        Category
+      </dt>
+      <dd>
+        <%= @tag.category %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@tag.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@tag.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>

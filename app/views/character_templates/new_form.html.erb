@@ -1,0 +1,45 @@
+<h1>
+  Add a new character
+</h1>
+
+
+<hr>
+
+<form action="/create_character" method="post">
+
+  <div class="form-group">
+    <label for="movie_id">
+      Movie
+    </label>
+
+   <%= select_tag("movie_id", options_from_collection_for_select(Movie.all, :id, :title, @movie.try(:movie_id)), :class => "form-control") %>
+  or <a href="/movies/new">Add a new movie</a>
+  </div> 
+
+  <div class="form-group">
+    <label for="actor_id">
+      Actor
+    </label>
+
+    <%= select_tag("actor_id", options_from_collection_for_select(Actor.all, :id, :name, @movie.try(:actor_id)), :class => "form-control") %>
+  or <a href="/actors/new">Add a new actor</a>
+  </div>
+
+  <div class="form-group">
+    <label for="name">
+      Name
+    </label>
+
+    <input type="text" id="name" name="name" class="form-control">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create character
+  </button>
+</form>
+
+<hr>
+
+<a href="/characters">
+  Go back
+</a>

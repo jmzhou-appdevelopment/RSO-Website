@@ -1,0 +1,40 @@
+<% if @category.present? %>
+  <% @category.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <%= message %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+  <% end %>
+<% end %>
+
+
+<h1>
+  Add a new category
+</h1>
+
+<hr>
+
+<form action="/create_category" method="post">
+  <!-- Label and input for title -->
+  <div class="form-group">
+    <label for="description">
+      Description
+    </label>
+
+    <input type="text" id="description" name="description" class="form-control">
+  </div>
+
+  
+  <button class="btn btn-block btn-outline-secondary">
+    Create category
+  </button>
+</form>
+
+<hr>
+
+<a href="/categories">
+  Go back
+</a>

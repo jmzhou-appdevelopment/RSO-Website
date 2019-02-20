@@ -1,16 +1,14 @@
 # == Schema Information
 #
-# Table name: directors
+# Table name: students
 #
 #  id         :integer          not null, primary key
-#  dob        :string
 #  name       :string
-#  bio        :text
-#  image_url  :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Director < ApplicationRecord
-    has_many :movies
+class Student < ApplicationRecord
+    has_many :enrollments
+    has_many :clubs, :through => :enrollments
 end
