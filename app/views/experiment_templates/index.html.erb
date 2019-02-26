@@ -1,0 +1,68 @@
+
+<form action="/experiment" method="post" >
+  <label><input type="checkbox" value="">Option 1</label>
+  
+</form>
+
+<form action="/experiment" method="post" >
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="filters" name="filters" value="1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button class="btn btn-block btn-outline-secondary">
+    Apply
+  </button>
+</form>
+
+<% if @filters.present? %>
+<%= @filters %>
+<% end %>
+
+
+
+<span class="badge badge-pill badge-primary">Primary</span>
+<span class="badge badge-pill badge-secondary">Secondary</span>
+<span class="badge badge-pill badge-success">Success</span>
+<span class="badge badge-pill badge-danger">Danger</span>
+<span class="badge badge-pill badge-warning">Warning</span>
+<span class="badge badge-pill badge-info">Info</span>
+<span class="badge badge-pill badge-light">Light</span>
+<span class="badge badge-pill badge-dark">Dark</span>
+
+<!--<div class="btn-group w-100 btn-group-sm" role="group" aria-label="...">-->
+<!--             <a href="/clubs" class="btn btn-outline-info">-->
+<!--               <i class="fas fa-heart"></i>-->
+<!--             </a>-->
+<!--              <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".<= club.id %>">-->
+<!--                <i class="fas fa-search-plus"></i>-->
+<!--              </button>-->
+<!--              <a href="/clubs/<= club.id %>" class="btn btn-outline-info">-->
+<!--                Full profile-->
+<!--             </a>-->
+<!--           </div> -->
+
+<button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+  Popover on top
+</button>
+
+<form action="/experiment" method="post" >
+  <div class="card" style="width: 16rem;">
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="filters" name="filters" value="this card works with form">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button class="btn btn-block btn-outline-secondary">
+    Apply
+  </button>
+</div>
+</form>
+
+<%= @filters %>
+
+<p>
+    Question:
+    How do I make it so that when I change the screen size, the cards don't overlap one another
+    How can I implement my filter options 
+    How can I use this javascript code (for resizing images) 
+    
+</p>

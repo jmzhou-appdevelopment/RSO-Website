@@ -1,0 +1,71 @@
+<h1>
+  All events
+</h1>
+
+<a href="/events/new">
+  Add a new event
+</a>
+
+<hr>
+
+<table class="table">
+  <tr>
+
+    <th>
+      Image
+    </th>
+
+    <th>
+      Title
+    </th>
+
+    <th>
+      Blurb
+    </th>
+
+    <th>
+      Description
+    </th>
+    
+    <th>
+      Club
+    </th>
+
+
+
+    <th>
+    </th>
+  </tr>
+
+  <% @events.each do |event| %>
+  <tr>
+    <td>
+      <img src="<%= event.image %>" width="80">
+    </td>
+
+    <td>
+      <%= event.title %>
+    </td>
+
+    <td>
+      <%= event.blurb %>
+    </td>
+
+    <td>
+      <%= truncate(event.description) %>
+    </td>
+    
+    <td>
+    <a href="/clubs/<%= event.club_id %>">
+        <%= event.club.title %>   
+    </a>
+    </td>
+
+    <td>
+      <a href="/events/<%= event.id %>" class="btn btn-primary">
+        Show details
+      </a>
+    </td>
+  </tr>
+  <% end %>
+</table>

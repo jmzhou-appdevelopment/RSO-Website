@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190220165221) do
+ActiveRecord::Schema.define(version: 20190226220540) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -52,6 +52,13 @@ ActiveRecord::Schema.define(version: 20190220165221) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "attendances", force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "description"
     t.datetime "created_at", null: false
@@ -73,6 +80,9 @@ ActiveRecord::Schema.define(version: 20190220165221) do
     t.text "summary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "schedule"
+    t.text "commitment"
+    t.text "getinvolved"
   end
 
   create_table "directors", force: :cascade do |t|
@@ -92,6 +102,18 @@ ActiveRecord::Schema.define(version: 20190220165221) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "club_id"
+    t.text "blurb"
+    t.datetime "time"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "image"
+  end
+
   create_table "movies", force: :cascade do |t|
     t.string "title"
     t.string "year"
@@ -101,6 +123,13 @@ ActiveRecord::Schema.define(version: 20190220165221) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "director_id"
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.integer "club_id"
+    t.string "source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "students", force: :cascade do |t|
@@ -114,6 +143,20 @@ ActiveRecord::Schema.define(version: 20190220165221) do
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "firstname"
+    t.string "lastname"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end

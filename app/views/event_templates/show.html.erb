@@ -1,9 +1,9 @@
 
 <h1>
-  Club #<%= @club.id %> details
+  Event #<%= @event.id %> details
 </h1>
 
-<a href="/clubs/<%= @club.id %>/edit">
+<a href="/events/<%= @event.id %>/edit">
   Edit club
 </a>
 
@@ -14,68 +14,70 @@
     Title
   </dt>
   <dd>
-    <%= @club.title %>
+    <%= @event.title %>
   </dd>
 
   <dt>
     Blurb
   </dt>
   <dd>
-    <%= @club.blurb %>
+    <%= @event.blurb %>
   </dd>
 
   <dt>
-    Summary
+    Description
   </dt>
   <dd>
-    <%= @club.summary %>
+    <%= @event.description %>
   </dd>
   
   <dt>
-    Commitment
+    Time
   </dt>
   <dd>
-    <%= @club.commitment %>
+    <%= @event.time %>
   </dd>
   
   <dt>
-    Schedule & Location
+    Location
   </dt>
   <dd>
-    <%= @club.schedule %>
+    <%= @event.location %>
   </dd>
   
   <dt>
-    Get Involved
+    Club
   </dt>
   <dd>
-    <%= @club.getinvolved %>
+      <a href="/clubs/<%= @event.club_id %>">
+        <%= @event.club.title %>  
+      </a>
   </dd>
 
   <dt>
     Image
   </dt>
   <dd>
-    <img src="<%= @club.source %>" width="320">
+    <img src="<%= @event.image %>" width="320">
   </dd>
 </dl>
 
-<a href="/delete_club/<%= @club.id %>" class="btn btn-danger">
-  Delete club
+<a href="/delete_event/<%= @event.id %>" class="btn btn-danger">
+  Delete event
 </a>
 
 <hr>
 
-<a href="/clubs">
+<a href="/events">
   Go back
 </a>
 
 <div class="card mt-4">
   <div class="card-header">
-    Members (<%= @club.students.count %>)
+    Attendees (<%= @event.students.count %>)
   </div>
   <ul class="list-group list-group-flush">
-     <% @club.students.each do |student| %>
+     <% @event.students.each do |student| %>
     <li class="list-group-item">
       <a href="/students/<%= student.id %>">
       <%= student.name %>
@@ -84,10 +86,10 @@
     <% end %>
   </ul>
   <div class="card-header">
-    Add a new student to this club.
+    Add a new attendee to this event.
   </div>
   <div class="p-5">
-  <form action="/create_enrollment" method="post" >
+  <form action="/create_attendance" method="post" >
   <!-- Label and input for title -->
   <div class="form-group">
     <label for="student_id">
@@ -98,10 +100,10 @@
   or <a href="/students/new">add a new student</a> first
   </div>
   
-  <input type="hidden" name="club_id" value="<%= @club.id %>">
+  <input type="hidden" name="event_id" value="<%= @event.id %>">
   
   <button class="btn btn-block btn-outline-secondary">
-    Create enrollment
+    Create attendance
   </button>
   </div>
 

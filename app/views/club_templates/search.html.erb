@@ -7,6 +7,12 @@
         
     </div>
 <div class="col-md-2 mt-5">
+  
+<form action="/clubssearch/filters" method="post" >
+  <button class="btn btn-block btn-outline-secondary">
+    Apply Filters
+  </button>
+  </br>
 <div class="card" style="width: 16rem;">
   <div class="card-header text-center">
     Type
@@ -14,67 +20,145 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="club">
-        <label class="custom-control-label" for="club">Clubs</label>
+        <input type="checkbox" class="custom-control-input" id="clubfilter" name="clubfilter" value="1"
+        <% if @clubfilter.present? %>
+        checked 
+        <% end %>>
+        <label class="custom-control-label" for="clubfilter">Clubs</label> <%= @filters %>
       </div>
     </li>
     <li class="list-group-item">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="events">
-        <label class="custom-control-label" for="events">Events</label>
+        <input type="checkbox" class="custom-control-input" id="eventfilter" name="eventfilter" value="1"
+        <% if @eventfilter.present? %>
+        checked 
+        <% end %>>
+        <label class="custom-control-label" for="eventfilter">Events</label>
       </div>
     </li>
   </ul>
 </div>
 </br>
 
+<% if @eventfilter.present? %>
+<div class="card" style="width: 16rem;">
+  <div class="card-header text-center">
+    Event Preferences
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="friendfilter" name="friendfilter" value="1"
+        <% if @friendfilter.present? %>
+        checked 
+        <% end %>>
+        <label class="custom-control-label" for="friendfilter">Flagged by Friends</label>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="foodfilter" name="foodfilter" value="1"
+        <% if @foodfilter.present? %>
+        checked 
+        <% end %>>
+        <label class="custom-control-label" for="foodfilter">Free food</label>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="admissionfilter" name="admissionfilter" value="1"
+        <% if @admissionfilter.present? %>
+        checked 
+        <% end %>>
+        <label class="custom-control-label" for="admissionfilter">Free Admission</label>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="soonfilter" name="soonfilter" value="1"
+        <% if @soonfilter.present? %>
+        checked 
+        <% end %>>
+        <label class="custom-control-label" for="soonfilter">Happening Soon</label>
+      </div>
+    </li>
+  </ul>
+</div>
+</br>
+<% end %>
 <div class="card" style="width: 16rem;">
   <div class="card-header text-center">
     Categories
   </div>
   <ul class="list-group list-group-flush">
-    <% @categories.each do |category| %>
+    <% @categories.each_with_index do |category, index| %>
     <li class="list-group-item">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="<%= category.id%>">
+        <input type="checkbox" class="custom-control-input" id="<%= category.id %>" name="<%= category.description %>"
+        <% if @categoryexists[index] == 1 %>
+        checked
+        <% end %>>
         <label class="custom-control-label" for="<%= category.id%>"><%= category.description %></label>
       </div>
     </li>
 <% end %>
   </ul>
 </div>
+</form>
+
 </div>
 <div class="col-md-9 pl-5">
 
-<div class="row">
+
+
+
+
+<div class="row mt-4">
 <% count=0 %>
+
+
 <% @clubs.each do |club| %>
 
 <% if(count%3 == 0) %>
 </div>
-<div class="row mt-5">
+<div class="row mt-3">
 <% end %>
     <div class="col-md-3">
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="<%= club.source %>" alt="Card image cap" style="height:200px">
-            <div class="card-body">
-                <h5 class="card-title"><%= club.title %></h5>
-                <p class="card-text"><%= club.blurb %></p>
-                <p class="card-text"><%= club.students.count %> members</p>
-                <div class="row">
-                  <div class="col-md-6">
-                    <a href="/clubs/<%= club.id %>" class="btn btn-outline-info">
-                Full profile
-                    </a>
-                  </div>
-                  <div class="col-md-6">
-                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target=".<%= club.id %>">
-              Quickview
-            </button>
-                  </div>
+        <div class="card mb-3" style="width: 18.3rem;">
+          <img class="card-img-top" src="<%= club.source %>" alt="Card image cap" style="height:220px">
+          <div class="row mt-3  ml-3">
+             <h5 class="card-title"><%= club.title %></h5>
+          </div>
+          <div class="row mb-3 ml-3">
+            <%= club.blurb %>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-9 ml-2">
+              <% club.categories.each do |category| %>
+              <span class="badge badge-pill badge-info"><%= category.description %></span>
+              <% end %>
             </div>
+          <div class="col-md-1">
+            <span class="badge badge-secondary">
+              <%= club.students.count %> <i class="fas fa-user"></i>
+            </span>
+          </div>
+        </div>
+        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+
+                <a href="/clubs" class="btn btn-light">
+                  &emsp;<i class="fas fa-heart"></i>&emsp;
+                </a>
+              
+                <a href="/clubs/<%= club.id %>" class="btn btn-light">
+                &emsp;&emsp;&emsp;Full profile&emsp;&emsp;&emsp;
+             </a>
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target=".<%= club.id %>">
+                &emsp;<i class="fas fa-search-plus"></i>&emsp;
+              </button>
             </div>
-            
+              
+          
 
 <div class="modal fade <%= club.id %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -90,40 +174,62 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-6">
-             <div class="card" style="width: 100%">
+             <div class="card mb-3" style="width: 100%">
+               <button type="button" class="btn btn-info">Gallery</button>
               <div class="card-body">
-                <h5 class="card-title">Summary</h5>
-                <p class="card-text">
-                  <%= club.summary %>
-                </p>
+                <div id="<%= club.id %>" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="<%= club.source %>" alt="First slide">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
               </div>
             </div>
-            <div class="card" style="width: 100%">
+            <div class="card mb-3" style="width: 100%">
+              <button type="button" class="btn btn-info">Get Involved</button>
               <div class="card-body">
-                <h5 class="card-title">Schedule & Location</h5>
                 <p class="card-text">
-                  <%= club.summary %>
+                  <%= club.getinvolved %>
                 </p>
               </div>
+              
             </div>
             </div>
             <div class="col-md-6">
-              <div class="card" style="width: 100%">
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Who We Are</button>
                 <div class="card-body">
-                  <h5 class="card-title">Summary</h5>
                   <p class="card-text">
                     <%= club.summary %>
                   </p>
                 </div>
               </div>
-              <div class="card" style="width: 100%">
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Schedule & Locations</button>
                 <div class="card-body">
-                  <h5 class="card-title">Schedule & Location</h5>
                   <p class="card-text">
-                    <%= club.summary %>
+                    <%= club.schedule %>
                     </p>
                 </div>
               </div>
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Commitment</button>
+              <div class="card-body">
+                <p class="card-text">
+                  <%= club.commitment %>
+                </p>
+              </div>
+              
+            </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -140,6 +246,7 @@
 </div>
             
         </div>
+      
     </div>
     <% count = count + 1 %>
     <% end %>
@@ -148,7 +255,8 @@
 </div>
 
 </div>
-
-<form action="/clubs" method="post" >
-  <label><input type="checkbox" value="">Option 1</label>
-</form>
+<div class="row m-5">
+  <div class="col-md-12 text-center">
+    <a href="/clubssearch" class="btn btn-secondary">Back to top</a>
+  </div>
+</div>

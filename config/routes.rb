@@ -1,4 +1,24 @@
 Rails.application.routes.draw do
+  devise_for :users
+  # Routes for the Attendance resource:
+
+  # CREATE
+  get("/attendances/new", { :controller => "attendances", :action => "new_form" })
+  post("/create_attendance", { :controller => "attendances", :action => "create_row" })
+
+  # READ
+  get("/attendances", { :controller => "attendances", :action => "index" })
+  get("/attendances/:id_to_display", { :controller => "attendances", :action => "show" })
+
+  # UPDATE
+  get("/attendances/:prefill_with_id/edit", { :controller => "attendances", :action => "edit_form" })
+  post("/update_attendance/:id_to_modify", { :controller => "attendances", :action => "update_row" })
+
+  # DELETE
+  get("/delete_attendance/:id_to_remove", { :controller => "attendances", :action => "destroy_row" })
+
+  #------------------------------
+
   # Routes for the Tag resource:
 
   # CREATE
@@ -47,6 +67,7 @@ Rails.application.routes.draw do
   get("/clubs", { :controller => "clubs", :action => "index" })
   get("/clubs/:id_to_display", { :controller => "clubs", :action => "show" })
   get("/clubssearch", { :controller => "clubs", :action => "search" })
+  post("/clubssearch/filters" , { :controller => "clubs" , :action => "searchfilter"})
 
   # UPDATE
   get("/clubs/:prefill_with_id/edit", { :controller => "clubs", :action => "edit_form" })
@@ -63,7 +84,7 @@ Rails.application.routes.draw do
 
   # CREATE
   get("/events/new", { :controller => "events", :action => "new_form" })
-  get("/create_event", { :controller => "events", :action => "create_row" })
+  post("/create_event", { :controller => "events", :action => "create_row" })
 
   # READ
   get("/events", { :controller => "events", :action => "index" })
@@ -71,7 +92,7 @@ Rails.application.routes.draw do
 
   # UPDATE
   get("/events/:prefill_with_id/edit", { :controller => "events", :action => "edit_form" })
-  get("/update_event/:id_to_modify", { :controller => "events", :action => "update_row" })
+  post("/update_event/:id_to_modify", { :controller => "events", :action => "update_row" })
 
   # DELETE
   get("/delete_event/:id_to_remove", { :controller => "events", :action => "destroy_row" })
@@ -115,6 +136,8 @@ Rails.application.routes.draw do
   get("/delete_category/:id_to_remove", { :controller => "categories", :action => "destroy_row" })
 
   #------------------------------
+  get("/experiment", { :controller => "experiment", :action => "index" })
+  post("/experiment", { :controller => "experiment", :action => "index" })
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config

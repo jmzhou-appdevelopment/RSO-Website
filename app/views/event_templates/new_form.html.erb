@@ -1,5 +1,5 @@
-<% if @club.present? %>
-  <% @club.errors.full_messages.each do |message| %>
+<% if @event.present? %>
+  <% @event.errors.full_messages.each do |message| %>
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
   <%= message %>
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -12,12 +12,12 @@
 
 
 <h1>
-  Add a new club
+  Add a new event
 </h1>
 
 <hr>
 
-<form action="/create_club" method="post">
+<form action="/create_event" method="post">
   <!-- Label and input for title -->
   <div class="form-group">
     <label for="title">
@@ -37,31 +37,42 @@
     <input type="text" id="blurb" name="blurb" class="form-control">
   </div>
 
-  <!-- Label and input for summary -->
+  <!-- Label and input for description -->
   <div class="form-group">
-    <label for="summary">
-      Summary
+    <label for="description">
+      Description
     </label>
 
-    <textarea id="summary" name="summary" class="form-control" rows="3"></textarea>
+    <textarea id="description" name="description" class="form-control" rows="3"></textarea>
   </div>
   
-  <!-- Label and input for schedule -->
+  <!-- Label and input for time -->
   <div class="form-group">
-    <label for="schedule">
-      Schedule & Location
+    <label for="location">
+    Time
     </label>
 
-    <textarea id="schedule" name="schedule" class="form-control" rows="3"></textarea>
+    <input type="text" id="time" name="time" class="form-control">
   </div>
   
-  <!-- Label and input for commitment -->
+  <!-- Label and input for location -->
   <div class="form-group">
-    <label for="commitment">
-      Commitment
+    <label for="location">
+      Location
     </label>
 
-
+    <input type="text" id="location" name="location" class="form-control">
+  </div>
+  
+  <!-- Label and input for club -->
+  <div class="form-group">
+    <label for="club">
+      Club
+    </label>
+    <%= select_tag("club_id", options_from_collection_for_select(Club.all, :id, :title, @event.try(:club_id)), :class => "form-control") %>
+  or <a href="/clubs/new">add a new club</a> first
+  </div>
+  
   <!-- Label and input for image_url -->
   <div class="form-group">
     <label for="image_url">

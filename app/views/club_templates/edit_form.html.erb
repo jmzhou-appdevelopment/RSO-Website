@@ -44,6 +44,33 @@
 
     <textarea id="summary" name="summary" class="form-control" rows="3"><%= @club.summary %></textarea>
   </div>
+  
+    <!-- Label and input for schedule -->
+  <div class="form-group">
+    <label for="schedule">
+      Schedule & Location
+    </label>
+
+    <textarea id="schedule" name="schedule" class="form-control" rows="3"><%= @club.schedule %></textarea>
+  </div>
+  
+  <!-- Label and input for commitment -->
+  <div class="form-group">
+    <label for="commitment">
+      Commitment
+    </label>
+
+    <textarea id="commitment" name="commitment" class="form-control" rows="3"><%= @club.commitment %></textarea>
+  </div>
+  
+  <!-- Label and input for getinvolved -->
+  <div class="form-group">
+    <label for="getinvolved">
+      Get Involved
+    </label>
+
+    <textarea id="getinvolved" name="getinvolved" class="form-control" rows="3"><%= @club.getinvolved %></textarea>
+  </div>
 
   <!-- Label and input for image_url -->
   <div class="form-group">
@@ -51,8 +78,9 @@
       Image url
     </label>
 
-    <input type="text" id="image_url" name="source" class="form-control" value="<%= @club.source %>">
+    <input type="text" id="image_url" name="image_url" class="form-control" value="<%= @club.source %>">
   </div>
+  
 
   <button class="btn btn-block btn-outline-secondary">
     Update club
