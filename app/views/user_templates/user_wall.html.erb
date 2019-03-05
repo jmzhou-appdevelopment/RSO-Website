@@ -1,0 +1,6 @@
+<h1><%= User.find_by(id: @user_to_display).firstname%></h1>
+<h2><%= @user_to_display %></h2>
+<h3><%= current_user.id %></h3>
+<% if Friend.where(inviter_id: current_user.id).invitee_id.include? User.find_by(id: @user_to_display).id  %>
+hi
+<% end %>

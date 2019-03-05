@@ -1,0 +1,110 @@
+<div class="row pt-5">
+    
+</div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-header">
+            <h2>
+                My Friends <span class="badge badge-secondary"><%= @friend_hashs.count %> </span>
+            </h2>
+          </div>
+          <ul class="list-group">
+            <% if @friend_hashs == [ ] %>
+            <li class="list-group-item">
+              You don't have any friends yet.
+            </li>
+            <% end %>
+              <% @friend_hashs.each do |f| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col">
+                    <a href="/users/<%= f.fetch("id") %>">
+                      <% friend = User.find_by(id: f.fetch("id")) %>
+                      <%= friend.firstname %> <%= friend.lastname %>
+                  </a>
+                  </div>
+                  <div class="col mr-auto">
+                    <a href="/delete_friend/<%= f.fetch("fr").id %>" class="btn btn-danger">
+                      Delete
+                    </a>
+                  </form>
+                  </div>
+                 </div> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-header">
+            <h2>
+                Friend Requests <span class="badge badge-secondary"> <%= @pending_invite_ids.count %> </span>
+            </h2>
+          </div>
+          <ul class="list-group">
+            <% if @pending_invite_ids == [ ] %>
+            <li class="list-group-item">
+              You don't have any friend requests to respond to.
+            </li>
+            <% end %>
+              <% @pending_invite_ids.each do |fr| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col">
+                    <a href="/users/<%= fr.inviter_id %>">
+                      <% inviter = User.find_by(id: fr.inviter_id) %>
+                      <%= inviter.firstname %> <%= inviter.lastname %>
+                  </a>
+                  </div>
+                  <div class="col mr-auto">
+                  <form action="/update_friend/<%= fr.id %>"method="post">
+                    <input type="hidden" name="inviter_id" value="<%= fr.inviter_id %>">
+                    <input type="hidden" name="invitee_id" value="<%= current_user.id %>">
+                    <input type="hidden" name="status" value="<%= fr.inviter_id %>">
+                    <button type="submit" class="btn btn-primary">
+                      Accept
+                    </button>
+                  </form>
+                  </div>
+                 </div> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-header">
+            <h2>
+                Pending Invites <span class="badge badge-secondary"><%= @pending_request_ids.count %></span>
+            </h2>
+          </div>
+          <ul class="list-group">
+            <% if @pending_request_ids == [ ] %>
+            <li class="list-group-item">
+              You don't have any pending friend invites.
+            </li>
+            <% end %>
+              <% @pending_request_ids.each do |fr| %>
+              <li class="list-group-item">
+                  <a href="/users/<%= fr.invitee_id %>">
+                      <% invitee = User.find_by(id: fr.invitee_id) %>
+                      <%= invitee.firstname %> <%= invitee.lastname %>
+                  </a>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+    </div>
+</div>
+

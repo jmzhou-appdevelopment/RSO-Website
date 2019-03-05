@@ -1,0 +1,50 @@
+<% if @friend.errors.any? %>
+  <% @friend.errors.full_messages.each do |message| %>
+    <div class="alert">
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<h1>
+  Edit friend #<%= @friend.id %>
+</h1>
+
+<hr>
+
+<form action="/update_friend/<%= @friend.id %>" method="post">
+
+  <div class="form-group">
+    <label for="inviter_id">
+      Inviter
+    </label>
+
+    <input type="text" id="inviter_id" name="inviter_id" class="form-control" value="<%= @friend.inviter_id %>">
+  </div>
+
+  <div class="form-group">
+    <label for="invitee_id">
+      Invitee
+    </label>
+
+    <input type="text" id="invitee_id" name="invitee_id" class="form-control" value="<%= @friend.invitee_id %>">
+  </div>
+
+  <div class="form-group">
+    <label for="status">
+      Status
+    </label>
+
+    <input type="text" id="status" name="status" class="form-control" value="<%= @friend.status %>">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Update friend
+  </button>
+</form>
+
+<hr>
+
+<a href="/friends">
+  Go back
+</a>

@@ -1,0 +1,35 @@
+<h1>
+  Add a new favorite
+</h1>
+
+
+<hr>
+
+<form action="/create_favorite" method="post">
+
+  <div class="form-group">
+    <label for="club_id">
+      Club
+    </label>
+
+    <input type="text" id="club_id" name="club_id" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="student_id">
+      Student
+    </label>
+
+    <input type="text" id="student_id" name="student_id" class="form-control">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create favorite
+  </button>
+</form>
+
+<hr>
+
+<a href="/favorites">
+  Go back
+</a>

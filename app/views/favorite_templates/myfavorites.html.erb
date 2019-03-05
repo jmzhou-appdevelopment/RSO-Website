@@ -1,0 +1,38 @@
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+          <div class="card-header">
+            <h2>
+                My Favorited Clubs <span class="badge badge-secondary"><%= @favorites_club_ids.count %> </span>
+            </h2>
+         
+          </div>
+          <ul class="list-group">
+            <% if @favorites_club_ids == [ ] %>
+            <li class="list-group-item">
+              You don't have any favorited clubs yet.
+            </li>
+            <% end %>
+              <% @favorites_club_ids.each do |club_id| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col">
+                    <a href="/clubs/<%= club_id %>">
+                      <% club = Club.find_by(id: club_id) %>
+                      <%= club.title %>
+                  </a>
+                  </div>
+                  <div class="col mr-auto">
+                    <a href="/delete_favorite/<%= Favorite.find_by(club_id: club_id, user_id: current_user).id %>" class="btn btn-danger">
+                      Delete
+                    </a>
+                  </form>
+                  </div>
+                 </div> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<h1>
+  Add a new friend
+</h1>
+
+
+<hr>
+
+<form action="/create_friend" method="post">
+
+  <div class="form-group">
+    <label for="inviter_id">
+      Inviter
+    </label>
+  <%= select_tag("inviter_id", options_from_collection_for_select(User.all, :id, :firstname, @club.try(:user_id)), :class => "form-control") %>
+  or <a href="/users/new">add a new user</a> first
+  </div>
+
+  <div class="form-group">
+    <label for="invitee_id">
+      Invitee
+    </label>
+
+    <%= select_tag("invitee_id", options_from_collection_for_select(User.all, :id, :firstname, @club.try(:user_id)), :class => "form-control") %>
+  or <a href="/users/new">add a new user</a> first
+  </div>
+
+  <div class="form-group">
+    <label for="status">
+      Status
+    </label>
+
+    <input type="text" id="status" name="status" class="form-control">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Create friend
+  </button>
+</form>
+
+<hr>
+
+<a href="/friends">
+  Go back
+</a>

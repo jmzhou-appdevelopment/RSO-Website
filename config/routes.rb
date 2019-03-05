@@ -1,7 +1,50 @@
 Rails.application.routes.draw do
-  devise_for :users
-  # Routes for the Attendance resource:
+  # Routes for the Friend resource:
 
+  # CREATE
+  get("/friends/new", { :controller => "friends", :action => "new_form" })
+  post("/create_friend", { :controller => "friends", :action => "create_row" })
+
+  # READ
+  get("/friends", { :controller => "friends", :action => "index" })
+  get("/myfriends", { :controller => "friends", :action => "myfriends" })
+  get("/friends/:id_to_display", { :controller => "friends", :action => "show" })
+
+  # UPDATE
+  get("/friends/:prefill_with_id/edit", { :controller => "friends", :action => "edit_form" })
+  post("/update_friend/:id_to_modify", { :controller => "friends", :action => "update_row" })
+
+  # DELETE
+  get("/delete_friend/:id_to_remove", { :controller => "friends", :action => "destroy_row" })
+
+  #------------------------------
+
+  # Routes for the Favorite resource:
+
+  # CREATE
+  get("/favorites/new", { :controller => "favorites", :action => "new_form" })
+  post("/create_favorite", { :controller => "favorites", :action => "create_row" })
+
+  # READ
+  get("/favorites", { :controller => "favorites", :action => "index" })
+  get("/myfavorites", { :controller => "favorites", :action => "myfavorites"})
+  get("/favorites/:id_to_display", { :controller => "favorites", :action => "show" })
+
+  # UPDATE
+  get("/favorites/:prefill_with_id/edit", { :controller => "favorites", :action => "edit_form" })
+  post("/update_favorite/:id_to_modify", { :controller => "favorites", :action => "update_row" })
+
+  # DELETE
+  get("/delete_favorite/:id_to_remove", { :controller => "favorites", :action => "destroy_row" })
+
+  #------------------------------
+
+  devise_for :users
+  
+  #Routes for Users
+  get("/users", { :controller => "clubs", :action => "show_users" })
+  get("/users/:id_to_display" , { :controller => "clubs", :action => "user_wall"})
+  # Routes for the Attendance resource:
   # CREATE
   get("/attendances/new", { :controller => "attendances", :action => "new_form" })
   post("/create_attendance", { :controller => "attendances", :action => "create_row" })
@@ -56,6 +99,10 @@ Rails.application.routes.draw do
   get("/delete_enrollment/:id_to_remove", { :controller => "enrollments", :action => "destroy_row" })
 
   #------------------------------
+  
+  # Routes for the search resource:
+  get("/search", { :controller => "clubs", :action => "search" })
+  post("/search/filters" , { :controller => "clubs" , :action => "searchfilter"})
 
   # Routes for the club resource:
 
@@ -66,8 +113,9 @@ Rails.application.routes.draw do
   # READ
   get("/clubs", { :controller => "clubs", :action => "index" })
   get("/clubs/:id_to_display", { :controller => "clubs", :action => "show" })
-  get("/clubssearch", { :controller => "clubs", :action => "search" })
-  post("/clubssearch/filters" , { :controller => "clubs" , :action => "searchfilter"})
+  get("/clubprofile/:id_to_display", { :controller => "clubs", :action => "show_club_profile" })
+  get("/clubprofile_edit/:prefill_with_id", { :controller => "clubs", :action => "show_club_profile_edit" })
+
 
   # UPDATE
   get("/clubs/:prefill_with_id/edit", { :controller => "clubs", :action => "edit_form" })

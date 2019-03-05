@@ -90,7 +90,7 @@
           </div>
 
           
-          <!-- Devise Input for firstname start -->
+          <!-- Devise Input for first name start -->
           <div class="form-group">
             <% firstname_was_invalid = resource.errors.include?(:firstname) %>
 
@@ -106,7 +106,7 @@
 
             <%= f.label :firstname %>
 
-            <%= f.text_field :firstname, :class => firstname_class, :placeholder => "Enter firstname" %>
+            <%= f.text_field :firstname, :class => firstname_class, :placeholder => "Enter first name" %>
 
             <% if firstname_was_invalid %>
               <% resource.errors.full_messages_for(:firstname).each do |message| %>
@@ -134,7 +134,7 @@
 
             <%= f.label :lastname %>
 
-            <%= f.text_field :lastname, :class => lastname_class, :placeholder => "Enter lastname" %>
+            <%= f.text_field :lastname, :class => lastname_class, :placeholder => "Enter last name" %>
 
             <% if lastname_was_invalid %>
               <% resource.errors.full_messages_for(:lastname).each do |message| %>

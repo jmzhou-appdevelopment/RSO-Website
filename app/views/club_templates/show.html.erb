@@ -1,4 +1,3 @@
-
 <h1>
   Club #<%= @club.id %> details
 </h1>
@@ -72,30 +71,30 @@
 
 <div class="card mt-4">
   <div class="card-header">
-    Members (<%= @club.students.count %>)
+    Members (<%= @club.users.count %>)
   </div>
   <ul class="list-group list-group-flush">
-     <% @club.students.each do |student| %>
+     <% @club.users.each do |user| %>
     <li class="list-group-item">
-      <a href="/students/<%= student.id %>">
-      <%= student.name %>
+      <a href="/users/<%= user.id %>">
+      <%= user.firstname %> <%= user.lastname %>
       </a>  
     </li>
     <% end %>
   </ul>
   <div class="card-header">
-    Add a new student to this club.
+    Add a new user to this club.
   </div>
   <div class="p-5">
   <form action="/create_enrollment" method="post" >
   <!-- Label and input for title -->
   <div class="form-group">
-    <label for="student_id">
-      Student
+    <label for="user_id">
+      user
     </label>
 
-    <%= select_tag("student_id", options_from_collection_for_select(Student.all, :id, :name, @club.try(:student_id)), :class => "form-control") %>
-  or <a href="/students/new">add a new student</a> first
+    <%= select_tag("user_id", options_from_collection_for_select(User.all, :id, :firstname, @club.try(:user_id)), :class => "form-control") %>
+  or <a href="/users/new">add a new user</a> first
   </div>
   
   <input type="hidden" name="club_id" value="<%= @club.id %>">

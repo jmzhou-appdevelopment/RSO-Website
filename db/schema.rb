@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190226220540) do
+ActiveRecord::Schema.define(version: 20190301191205) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -53,10 +53,10 @@ ActiveRecord::Schema.define(version: 20190226220540) do
   end
 
   create_table "attendances", force: :cascade do |t|
-    t.integer "student_id"
     t.integer "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -96,10 +96,10 @@ ActiveRecord::Schema.define(version: 20190226220540) do
 
   create_table "enrollments", force: :cascade do |t|
     t.integer "club_id"
-    t.integer "student_id"
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -112,6 +112,21 @@ ActiveRecord::Schema.define(version: 20190226220540) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
+  end
+
+  create_table "favorites", force: :cascade do |t|
+    t.integer "club_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+  end
+
+  create_table "friends", force: :cascade do |t|
+    t.integer "inviter_id"
+    t.integer "invitee_id"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "movies", force: :cascade do |t|

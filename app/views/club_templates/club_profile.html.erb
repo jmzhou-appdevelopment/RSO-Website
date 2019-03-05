@@ -1,0 +1,100 @@
+<div class="container-fluid">
+  <div class="row p-4">
+    <div class="col-md-12 text-center">
+      <h1><%= @club.title %></h1>
+      <h4 style="color:Grey;"><%= @club.blurb%></h4>
+    </div>
+  </div>
+  <div class="row ml-5 mr-5">
+    <div class="col-md-3 p-3">
+      <div class="card mb-4">
+        <div class="card-body">
+        <h5 class="card-title">How to Get Involved</h5>
+        <p class="card-text">
+          <% @club.getinvolved.split("\n").each do |line| %>
+          <%= line %>
+          </br>
+          <% end %>
+          </p>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-body">
+        <h5 class="card-title">Commitment</h5>
+        <p class="card-text">
+          <% @club.commitment.split("\n").each do |line| %>
+          <%= line %>
+          </br>
+          <% end %>
+        </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 p-3">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Photo Gallery</h5>
+          
+          <div id="<%= @club.id %>" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100" src="<%= @club.source %>" alt="First slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-3 p-3">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Summary</h5>
+        <p class="card-text">
+          <% @club.summary.split("\n").each do |line| %>
+          <%= line %>
+          </br>
+          <% end %>
+        </p>
+      </div>
+    </div>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Schedule</h5>
+        <p class="card-text">
+          <% @club.schedule.split("\n").each do |line| %>
+          <%= line %>
+          </br>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row p-4">
+    <div class="col-md-12">
+     Events go here
+    </div>
+</div>
+</div>
+
+
+<div class="row p-4">
+    <div class="col-md-6">
+      <a href="/clubprofile_edit/<%= @club.id %>" class="btn btn-primary btn-block">
+  Edit club
+    </a>
+    </div>
+    <div class="col-md-6">
+      <a href="/clubprofile_edit/<%= @club.id %>" class="btn btn-primary btn-block">
+  Post Event
+    </a>
+    </div>
+  </div>

@@ -21,7 +21,7 @@ class EnrollmentsController < ApplicationController
     @enrollment = Enrollment.new
 
     @enrollment.club_id = params.fetch("club_id")
-    @enrollment.student_id = params.fetch("student_id")
+    @enrollment.user_id = params.fetch("user_id")
 
     if @enrollment.valid?
       @enrollment.save
@@ -42,7 +42,7 @@ class EnrollmentsController < ApplicationController
     @enrollment = Enrollment.find(params.fetch("id_to_modify"))
 
     @enrollment.club_id = params.fetch("club_id")
-    @enrollment.student_id = params.fetch("student_id")
+    @enrollment.user_id = params.fetch("user_id")
 
     if @enrollment.valid?
       @enrollment.save

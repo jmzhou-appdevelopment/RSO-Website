@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <% if @club.present? %>
+  <% @club.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <%= message %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+  <% end %>
+<% end %>
+<div class="row mt-4">
+  
+</div>
+
+<form action="/update_club/<%= @club.id %>" method="post" >
+  <button type="submit" class="btn btn-warning btn-block">
+  Save Changes
+  </button>
+  <div class="row p-4">
+    <div class="col-md-12">
+      <!-- Label and input for title -->
+  <div class="form-group">
+    <label for="title">
+      Title
+    </label>
+
+    <input type="text" id="title" name="title" class="form-control" value="<%= @club.title %>">
+  </div>
+
+
+  <!-- Label and input for duration -->
+  <div class="form-group">
+    <label for="blurb">
+     Blurb
+    </label>
+
+    <input type="text" id="blurb" name="blurb" class="form-control" value="<%= @club.blurb %>">
+  </div>
+    </div>
+  </div>
+  <div class="row ml-5 mr-5">
+    <div class="col-md-3 p-3">
+      <div class="card mb-4">
+        <div class="card-body">
+        <h5 class="card-title">How to Get Involved</h5>
+        <textarea id="getinvolved" name="getinvolved" class="form-control" rows="10"><%= @club.getinvolved %></textarea>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-body">
+        <h5 class="card-title">Commitment</h5>
+        <textarea id="commitment" name="commitment" class="form-control" rows="10"><%= @club.commitment %></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 p-3">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Current Profile Picture</h5>
+                  <img class="d-block w-100" src="<%= @club.source %>" alt="First slide">
+          Image Source:
+          </br>
+          <input type="text" id="image_url" name="image_url" class="form-control" value="<%= @club.source %>">
+        </div>
+      </div>
+  </div>
+  <div class="col-md-3 p-3">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Summary</h5>
+        <textarea id="summary" name="summary" class="form-control" rows="10"><%= @club.summary %></textarea>
+      </div>
+    </div>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Schedule</h5>
+        <textarea id="schedule" name="schedule" class="form-control" rows="10"><%= @club.schedule %></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<div class="row p-4">
+    <div class="col-md-12">
+     Events go here
+    </div>
+</div>
+</div>
+
+

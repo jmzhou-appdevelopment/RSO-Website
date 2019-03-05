@@ -74,13 +74,13 @@
 
 <div class="card mt-4">
   <div class="card-header">
-    Attendees (<%= @event.students.count %>)
+    Attendees (<%= @event.users.count %>)
   </div>
   <ul class="list-group list-group-flush">
-     <% @event.students.each do |student| %>
+     <% @event.users.each do |user| %>
     <li class="list-group-item">
-      <a href="/students/<%= student.id %>">
-      <%= student.name %>
+      <a href="/users/<%= user.id %>">
+      <%= user.name %>
       </a>  
     </li>
     <% end %>
@@ -92,12 +92,12 @@
   <form action="/create_attendance" method="post" >
   <!-- Label and input for title -->
   <div class="form-group">
-    <label for="student_id">
-      Student
+    <label for="user_id">
+      user
     </label>
 
-    <%= select_tag("student_id", options_from_collection_for_select(Student.all, :id, :name, @club.try(:student_id)), :class => "form-control") %>
-  or <a href="/students/new">add a new student</a> first
+    <%= select_tag("user_id", options_from_collection_for_select(user.all, :id, :name, @club.try(:user_id)), :class => "form-control") %>
+  or <a href="/users/new">add a new user</a> first
   </div>
   
   <input type="hidden" name="event_id" value="<%= @event.id %>">

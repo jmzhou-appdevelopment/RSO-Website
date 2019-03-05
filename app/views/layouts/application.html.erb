@@ -33,13 +33,34 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item"><a class="nav-link" href="/clubs">Clubs</a></li>
           <li class="nav-item"><a class="nav-link" href="/events">Events</a></li>
-          <li class="nav-item"><a class="nav-link" href="/students">Students</a></li>
+          <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
           <li class="nav-item"><a class="nav-link" href="/enrollments">Enrollments</a></li>
           <li class="nav-item"><a class="nav-link" href="/attendances">Attendance</a></li>
-          <li class="nav-item"><a class="nav-link" href="/clubssearch">Search</a></li>
+          <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
           <li class="nav-item"><a class="nav-link" href="/categories">Categories</a></li>
           <li class="nav-item"><a class="nav-link" href="/tags">Tags</a></li>
           <li class="nav-item"><a class="nav-link" href="/experiment">Experiment</a></li>
+          <li class="nav-item"><a class="nav-link" href="/friends">All Friend Relationships</a></li>
+          <li class="nav-item"><a class="nav-link" href="/myfriends">My Friends</a></li>
+          <li class="nav-item"><a class="nav-link" href="/myfavorites">My Favorites</a></li>
+          
+        </ul>
+        <ul class="navbar-nav">
+        <% if current_user %>
+          <li class="nav-item active">
+            <a class="nav-link" href="/users/edit"><%= current_user.firstname %></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/users/sign_out" data-method="delete" rel="nofollow">Sign Out</a>
+          </li>
+          <% else %>
+          <li class="nav-item active">
+            <a class="nav-link" href="/users/sign_in"> Login</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/users/sign_up">Create Account</a>
+          </li>
+          <% end %>
         </ul>
       </div>
     </nav>

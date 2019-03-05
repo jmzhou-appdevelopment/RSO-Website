@@ -94,7 +94,7 @@ class ClubsController < ApplicationController
     @club.commitment = params.fetch("commitment")
     @club.schedule = params.fetch("schedule")
     @club.getinvolved = params.fetch("getinvolved")
-     if @club.valid?
+    if @club.valid?
       @club.save
       redirect_to("/clubs", :notice => "Club created successfully.")
     else
@@ -121,7 +121,7 @@ class ClubsController < ApplicationController
     @club.getinvolved = params.fetch("getinvolved")
     if @club.valid?
       @club.save
-      redirect_to("/clubs", :notice => "Club updated successfully.")
+      redirect_to("/clubprofile/#{@club.id}", :notice => "Club updated successfully.")
     else
       render("club_templates/edit_form.html.erb")
     end
@@ -143,4 +143,31 @@ class ClubsController < ApplicationController
 
     redirect_to("/clubs", :notice => "Club deleted successfully.")
   end
+  
+  def show_users
+    @users = User.all
+    render("user_templates/show.html.erb")
+  end
+  
+  def user_wall
+    @user_to_display = params.fetch("id_to_display")
+    if current_user.id == @user_to_display.to_i
+      redirect_to("/users/edit")
+    else
+      render("/user_templates/user_wall.html.erb")
+    end
+  end
+  
+  def show_club_profile
+    @club = Club.find(params.fetch("id_to_display"))
+
+    render("club_templates/club_profile.html.erb")
+  end
+  
+  def show_club_profile_edit
+    @club = Club.find(params.fetch("prefill_with_id"))
+
+    render("club_templates/club_profile_edit.html.erb")
+  end
+  
 end

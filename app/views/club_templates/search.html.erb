@@ -8,7 +8,7 @@
     </div>
 <div class="col-md-2 mt-5">
   
-<form action="/clubssearch/filters" method="post" >
+<form action="/search/filters" method="post" >
   <button class="btn btn-block btn-outline-secondary">
     Apply Filters
   </button>
@@ -140,21 +140,30 @@
             </div>
           <div class="col-md-1">
             <span class="badge badge-secondary">
-              <%= club.students.count %> <i class="fas fa-user"></i>
+              <%= club.users.count %> <i class="fas fa-user"></i>
             </span>
           </div>
         </div>
         <div class="btn-group btn-group-sm" role="group" aria-label="...">
-
-                <a href="/clubs" class="btn btn-light">
-                  &emsp;<i class="fas fa-heart"></i>&emsp;
-                </a>
+          <% if club.fans.ids.include? current_user.id %>
+            <a class="btn btn-light w-100" href="/delete_favorite/<%= club.favorites.find_by(:user_id => current_user.id).id %>">
+              <i class="fas fa-heart" style="color:red"></i>
+            </a>
+          <% else %>
+            <form action="/create_favorite" method="post">
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+              <input type="hidden" name="club_id" value="<%= club.id %>">
+                <button class="btn btn-small btn-light w-100">
+                  <i class="fas fa-heart"></i>
+                </button>
+              </form>
+          <% end %>
               
-                <a href="/clubs/<%= club.id %>" class="btn btn-light">
-                &emsp;&emsp;&emsp;Full profile&emsp;&emsp;&emsp;
+                <a href="/clubprofile/<%= club.id %>" class="btn btn-light w-100">
+                Full profile
              </a>
-                <button type="button" class="btn btn-light" data-toggle="modal" data-target=".<%= club.id %>">
-                &emsp;<i class="fas fa-search-plus"></i>&emsp;
+                <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= club.id %>">
+                <i class="fas fa-search-plus"></i>
               </button>
             </div>
               
@@ -234,7 +243,7 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-12 text-center">
-              <a href="/clubs/<%= club.id %>" class="btn btn-outline-info">
+              <a href="/clubprofile/<%= club.id %>" class="btn btn-outline-info">
                 View full profile
               </a>
             </div>
