@@ -80,7 +80,7 @@
      <% @event.users.each do |user| %>
     <li class="list-group-item">
       <a href="/users/<%= user.id %>">
-      <%= user.name %>
+      <%= user.firstname %> <%= user.lastname %>
       </a>  
     </li>
     <% end %>
@@ -96,7 +96,7 @@
       user
     </label>
 
-    <%= select_tag("user_id", options_from_collection_for_select(user.all, :id, :name, @club.try(:user_id)), :class => "form-control") %>
+    <%= select_tag("user_id", options_from_collection_for_select(User.all, :id, :firstname, @club.try(:user_id)), :class => "form-control") %>
   or <a href="/users/new">add a new user</a> first
   </div>
   
@@ -110,3 +110,23 @@
 </form>
 </div>
 </div>
+
+
+<li class="list-group-item"> 
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="clubfilter" name="clubfilter" value="1"
+        <% if @clubfilter.present? %>
+        checked 
+        <% end %>>
+        <label class="custom-control-label" for="clubfilter">Clubs</label> <%= @filters %>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="eventfilter" name="eventfilter" value="1"
+        <% if @eventfilter.present? %>
+        checked 
+        <% end %>>
+        <label class="custom-control-label" for="eventfilter">Events</label>
+      </div>
+    </li>

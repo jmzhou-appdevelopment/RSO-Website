@@ -57,6 +57,22 @@
   <dd>
     <img src="<%= @club.source %>" width="320">
   </dd>
+  
+  <dt>
+    Admin
+  </dt>
+  <dd>
+    <% if @club.admin_user_id == nil %>
+    No Admin Yet
+    <% else %>
+      <a href="users/<%= @club.admin_user_id %>">
+      <%= User.find_by(id: @club.admin_user_id).firstname %> 
+      <%= User.find_by(id: @club.admin_user_id).lastname %>
+    </a>
+    <% end %>
+    
+  </dd>
+  
 </dl>
 
 <a href="/delete_club/<%= @club.id %>" class="btn btn-danger">

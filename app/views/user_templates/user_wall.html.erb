@@ -1,6 +1,53 @@
-<h1><%= User.find_by(id: @user_to_display).firstname%></h1>
-<h2><%= @user_to_display %></h2>
-<h3><%= current_user.id %></h3>
-<% if Friend.where(inviter_id: current_user.id).invitee_id.include? User.find_by(id: @user_to_display).id  %>
-hi
-<% end %>
+<div class="container-fluid">
+  <div class="row p-4">
+    <div class="col-md-12 text-center">
+      <h1><%= @user.firstname%> <%= @user.lastname%></h1>
+    </div>
+  </div>
+  <div class="row ml-5 mr-5">
+    <div class="col-md-3 p-3">
+      <div class="card mb-4">
+        <span class="badge badge-primary">Friends</span>
+      </div>
+      <div class="card mb-4">
+      <div class="card-body">
+      <h5 class="card-title"><%= @user.firstname%>'s friends (<%= @friend_hashs.count %>)</h5>
+        <ul class="list-group">
+              <% @friend_hashs.each do |f| %>
+              <li class="list-group-item">
+                  <a href="/users/<%= f.fetch("id") %>">
+                      <%= User.find_by(id: f.fetch("id")).firstname %> <%= User.find_by(id: f.fetch("id")).lastname %>
+                  </a>
+              </li>
+            <% end %>
+          </ul>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-6 p-3">
+      second column
+  </div>
+  <div class="col-md-3 p-3">
+    <div class="card mb-4">
+      <div class="card-body">
+      <h5 class="card-title"><%= @user.firstname%>'s likes (<%= @user.clubs.count %>)</h5>
+        <ul class="list-group">
+              <% @user.clubs.each do |club| %>
+              <li class="list-group-item">
+                  <a href="/club_profile/<%= club.id %>">
+                      <%= club.title %>
+                  </a>
+              </li>
+            <% end %>
+          </ul>
+      </div>
+    </div>
+</div>
+<div class="row p-4">
+    <div class="col-md-12">
+     Events go here
+    </div>
+</div>
+</div>
+
+<%= @message %>

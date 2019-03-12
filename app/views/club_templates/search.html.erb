@@ -1,44 +1,43 @@
-<div class="jumbotron jumbotron-fluid text-center">
-    <h1 class="display-4">Search Clubs & Events</h1>
+<div class="jumbotronspecial jumbotron-fluid text-center">
+  <h1 class="display-4">Search Clubs & Events</h1>
 </div>
 
 <div class="row">
     <div class="col-md-1">
-        
+        <!--spacer-->
     </div>
-<div class="col-md-2 mt-5">
-  
-<form action="/search/filters" method="post" >
-  <button class="btn btn-block btn-outline-secondary">
-    Apply Filters
-  </button>
-  </br>
-<div class="card" style="width: 16rem;">
-  <div class="card-header text-center">
-    Type
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="clubfilter" name="clubfilter" value="1"
-        <% if @clubfilter.present? %>
-        checked 
-        <% end %>>
-        <label class="custom-control-label" for="clubfilter">Clubs</label> <%= @filters %>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="eventfilter" name="eventfilter" value="1"
-        <% if @eventfilter.present? %>
-        checked 
-        <% end %>>
-        <label class="custom-control-label" for="eventfilter">Events</label>
-      </div>
-    </li>
-  </ul>
-</div>
-</br>
+    <div class="col-md-2 mt-5">
+      <form action="/search" >
+        <button class="btn btn-block btn-outline-secondary">
+          Apply Filters
+        </button>
+        </br>
+        <div class="card" style="width: 16rem;">
+          <div class="card-header text-center">
+            Type
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio1" name="typefilter" class="custom-control-input" value="clubfilter"
+                <% if @clubfilter == 1 %>
+                checked 
+                <% end %>>
+                <label class="custom-control-label" for="customRadio1">Clubs</label>
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="custom-control custom-radio">
+                <input type="radio" id="customRadio2" name="typefilter" class="custom-control-input" value="eventfilter"
+                  <% if @eventfilter == 1 %>
+                  checked 
+                 <% end %>>
+                <label class="custom-control-label" for="customRadio2">Events</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+        </br>
 
 <% if @eventfilter.present? %>
 <div class="card" style="width: 16rem;">
@@ -107,12 +106,10 @@
 </form>
 
 </div>
+
+<!--IF CLUBS ARE DISPLAYED -->
+<% if @clubfilter == 1 %>
 <div class="col-md-9 pl-5">
-
-
-
-
-
 <div class="row mt-4">
 <% count=0 %>
 
@@ -138,10 +135,11 @@
               <span class="badge badge-pill badge-info"><%= category.description %></span>
               <% end %>
             </div>
-          <div class="col-md-1">
-            <span class="badge badge-secondary">
-              <%= club.users.count %> <i class="fas fa-user"></i>
-            </span>
+          <div class="col-md-2 auto-mr">
+            <button class="btn btn-light btn-sm" data-toggle="modal" data-target=".<%= club.id %>people">
+                <span style="font-size:9pt"><%= club.fans.count %> <i class="fas fa-user"></i></span>
+            </button>
+            
           </div>
         </div>
         <div class="btn-group btn-group-sm" role="group" aria-label="...">
@@ -150,19 +148,15 @@
               <i class="fas fa-heart" style="color:red"></i>
             </a>
           <% else %>
-            <form action="/create_favorite" method="post">
-              <input type="hidden" name="user_id" value="<%= current_user.id %>">
-              <input type="hidden" name="club_id" value="<%= club.id %>">
-                <button class="btn btn-small btn-light w-100">
-                  <i class="fas fa-heart"></i>
-                </button>
-              </form>
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= club.id %>favorite">
+                <i class="fas fa-heart"></i>
+              </button>
           <% end %>
               
                 <a href="/clubprofile/<%= club.id %>" class="btn btn-light w-100">
                 Full profile
-             </a>
-                <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= club.id %>">
+                </a>
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= club.id %>">
                 <i class="fas fa-search-plus"></i>
               </button>
             </div>
@@ -183,46 +177,8 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-6">
-             <div class="card mb-3" style="width: 100%">
-               <button type="button" class="btn btn-info">Gallery</button>
-              <div class="card-body">
-                <div id="<%= club.id %>" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="<%= club.source %>" alt="First slide">
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-              </div>
-            </div>
-            <div class="card mb-3" style="width: 100%">
-              <button type="button" class="btn btn-info">Get Involved</button>
-              <div class="card-body">
-                <p class="card-text">
-                  <%= club.getinvolved %>
-                </p>
-              </div>
-              
-            </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card mb-3" style="width: 100%">
-                <button type="button" class="btn btn-info">Who We Are</button>
-                <div class="card-body">
-                  <p class="card-text">
-                    <%= club.summary %>
-                  </p>
-                </div>
-              </div>
-              <div class="card mb-3" style="width: 100%">
+              <img class="d-block w-100 mb-3" src="<%= club.source %>">
+               <div class="card mb-3" style="width: 100%">
                 <button type="button" class="btn btn-info">Schedule & Locations</button>
                 <div class="card-body">
                   <p class="card-text">
@@ -237,8 +193,26 @@
                   <%= club.commitment %>
                 </p>
               </div>
-              
             </div>
+            
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Who We Are</button>
+                <div class="card-body">
+                  <p class="card-text">
+                    <%= club.summary %>
+                  </p>
+                </div>
+              </div>
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Get Involved</button>
+                <div class="card-body">
+                  <p class="card-text">
+                    <%= club.getinvolved %>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
@@ -253,6 +227,81 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade <%= club.id %>favorite"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="col-12 modal-title text-center">Favorite <%= club.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+            <p style="font-size:1rem">
+              You're about to add this club to favorites. That means that you'll receive notifications 
+              when they post a new event or announcement. 
+            </p>
+            <p style="font-size:1rem">
+            You can configure this in "notifications"
+            in your account settings. 
+            </p>
+            
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <form action="/create_favorite" method="post">
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+              <input type="hidden" name="club_id" value="<%= club.id %>">
+                <button class="btn btn btn-outline-info">
+                  Add to favorites
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade <%= club.id %>people"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="col-12 modal-title text-center"><%= club.title %> Members
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h5>
+      </div>
+      <div class="modal-body">
+          <div class="card-header">
+            <h5>
+                <%= club.fans.count %> Members
+            </h5>
+          </div>
+          <ul class="list-group">
+              <% club.fans.each do |user| %>
+              <li class="list-group-item">
+                  <a href="/users/<%= user.id %>">
+                      <%= user.firstname %> <%= user.lastname %>
+                  </a>
+                  <% if user.id == club.admin_user_id %>
+                  [Admin]
+                  <% end %>
+              </li>
+            <% end %>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>
             
         </div>
       
@@ -260,12 +309,238 @@
     <% count = count + 1 %>
     <% end %>
 </div>
-
+</div>
 </div>
 
+<% end %>
+
+<!--IF EVENTS ARE DISPLAYED ------------------>
+
+
+<% if @eventfilter == 1 %>
+<div class="col-md-9 pl-5">
+<div class="row mt-4">
+<% count=0 %>
+
+
+<% @events.each do |event| %>
+
+<% if(count%3 == 0) %>
+  </div>
+  <div class="row mt-3">
+<% end %>
+    <div class="col-md-3">
+        <div class="card mb-3" style="width: 18.3rem;">
+          <img class="card-img-top" src="<%= event.image %>" alt="Card image cap" style="height:220px">
+          <div class="row mt-3  ml-3">
+             <h5 class="card-title"><%= event.title %></h5>
+          </div>
+          <div class="row mb-3 ml-3">
+            <%= event.blurb %>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-9 ml-2">
+              <% event.club.categories.each do |category| %>
+              <span class="badge badge-pill badge-info"><%= category.description %></span>
+              <% end %>
+            </div>
+          <div class="col-md-1">
+            <a href="/clubs">
+              <span class="badge badge-secondary">
+              <%= event.users.count %> <i class="fas fa-user"></i>
+              </span>
+            </a>
+            
+          </div>
+        </div>
+        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>share">
+                <i class="fas fa-share"></i>
+              </button>
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>rsvp">
+                RSVP
+              </button> 
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>show">
+                <i class="fas fa-search-plus"></i>
+              </button>
+            </div>
+              
+          
+
+<div class="modal fade <%= event.id %>show" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h3 class="col-12 modal-title text-center"><%= event.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <img class="d-block w-100 mb-3" src="<%= event.image %>">
+            
+            </div>
+            <div class="col-md-6">
+              
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <a href="/events/<%= event.id %>" class="btn btn-outline-info">
+                View full profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<div class="modal fade <%= event.id %>share" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="col-12 modal-title text-center">Share this event
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <form action="/share" method="post">
+          <div class="card">
+            <div class="card-header text-center">
+              <h5>
+                  My Friends <span class="badge badge-secondary"><%= @friend_hashs.count %> </span>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <% if @friend_hashs == [ ] %>
+              <li class="list-group-item">
+                You don't have any friends yet.
+              </li>
+              <% end %>
+              <% @friend_hashs.each do |f| %>
+              <li class="list-group-item">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="friend<%= f.fetch("id") %>" name="<% f.fetch("id") %>" value="1">
+                  <label class="custom-control-label" for="friend<%= f.fetch("id")%>">
+                    <a href="/users/<%= f.fetch("id") %>">
+                      <% friend = User.find_by(id: f.fetch("id")) %>
+                      <%= friend.firstname %> <%= friend.lastname %>
+                    </a>
+                  </label>
+                </div>
+              </li>
+              <% end %>
+            </ul>
+          </div>
+        <div class="row mt-3">
+          <div class="col-md-12 text-center">
+            <button class="btn btn-block btn-outline-secondary">
+              Share
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade <%= event.id %>rsvp"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="col-12 modal-title text-center">RSVP for <%= event.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+            <p style="font-size:1rem">
+              You're about to RSVP this event and add it to favorites.  
+            </p>
+            <p style="font-size:1rem">
+            You can configure reminders and notifications 
+            in your account settings. 
+            </p>
+            
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <form action="/create_attendance" method="post">
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+              <input type="hidden" name="event_id" value="<%= event.id %>">
+                <button class="btn btn btn-outline-info">
+                  Add to favorites
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade <%= event.id %>rsvp" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h3 class="col-12 modal-title text-center">RSVP for <%= event.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <img class="d-block w-100 mb-3" src="<%= event.image %>">
+            
+            </div>
+            <div class="col-md-6">
+              
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <a href="/events/<%= event.id %>" class="btn btn-outline-info">
+                View full profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+        </div>
+      
+    </div>
+    <% count = count + 1 %>
+    <% end %>
+</div>
+</div>
+</div>
+<% end %>
+
 <div class="row m-5">
   <div class="col-md-12 text-center">
-    <a href="/clubssearch" class="btn btn-secondary">Back to top</a>
+    <a href="/search" class="btn btn-secondary">Back to top</a>
   </div>
 </div>

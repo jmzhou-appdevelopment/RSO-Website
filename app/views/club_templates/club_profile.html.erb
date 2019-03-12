@@ -1,11 +1,16 @@
-<div class="container-fluid">
+  <div class="container-fluid">
   <div class="row p-4">
     <div class="col-md-12 text-center">
-      <h1><%= @club.title %></h1>
+      <h1><%= @club.title %></h1> 
       <h4 style="color:Grey;"><%= @club.blurb%></h4>
     </div>
   </div>
   <div class="row ml-5 mr-5">
+    <% if current_user.id == @club.admin_user_id %>
+    <a href="/clubprofile_edit/<%= @club.id %>" class="btn btn-primary btn-block">
+  Edit club
+    </a>
+    <% end %>
     <div class="col-md-3 p-3">
       <div class="card mb-4">
         <div class="card-body">
@@ -18,6 +23,7 @@
           </p>
         </div>
       </div>
+      
       <div class="card mb-4">
         <div class="card-body">
         <h5 class="card-title">Commitment</h5>
@@ -34,67 +40,144 @@
       <div class="card mb-4">
         <div class="card-body">
           <h5 class="card-title">Photo Gallery</h5>
+            <img class="d-block w-100" src="<%= @club.source %>">
+         </div>      
+      </div>
+      <div class="card mb-4 pl-4">
+        <div class="card-body">
+          <h5 class="card-title">Events</h5>
           
-          <div id="<%= @club.id %>" class="carousel slide" data-ride="carousel">
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img class="d-block w-100" src="<%= @club.source %>" alt="First slide">
-                </div>
-              </div>
-              <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
+          
+<div class="row mt-0">
+<% count=0 %>
+<% @club.events.each do |event| %>
+<% if(count%2 == 0) %>
+  </div>
+  <div class="row mt-3">
+<% end %>
+    <div class="col-md-6">
+        <div class="card mb-3" style="width: 18.3rem;">
+          <img class="card-img-top" src="<%= event.image %>" alt="Card image cap" style="height:220px">
+          <div class="row mt-3  ml-3">
+             <h5 class="card-title"><%= event.title %></h5>
+          </div>
+          <div class="row mb-3 ml-3">
+            <%= event.blurb %>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-9 ml-2">
+              <% event.club.categories.each do |category| %>
+              <span class="badge badge-pill badge-info"><%= category.description %></span>
+              <% end %>
+            </div>
+          <div class="col-md-1">
+            <a href="/clubs">
+              <span class="badge badge-secondary">
+              <%= event.users.count %> <i class="fas fa-user"></i>
+              </span>
+            </a>
+            
+          </div>
+        </div>
+        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+            <a class="btn btn-light w-100" href="/delete_favorite/">
+              <i class="fas fa-heart" style="color:red"></i>
+            </a>
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>favorite">
+                <i class="fas fa-heart"></i>
+              </button>
+                <a href="/events/<%= event.id %>" class="btn btn-light w-100">
+                Full profile
+             </a>
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>">
+                <i class="fas fa-search-plus"></i>
+              </button>
+            </div>
+
+<div class="modal fade <%= event.id %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h3 class="col-12 modal-title text-center"><%= event.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <img class="d-block w-100 mb-3" src="<%= event.image %>">
+            
+            </div>
+            <div class="col-md-6">
+              
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <a href="/events/<%= event.id %>" class="btn btn-outline-info">
+                View full profile
               </a>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+   </div>
+    </div>
+    <% count = count + 1 %>
+    <% end %>
+</div>
+          
         </div>
       </div>
   </div>
   <div class="col-md-3 p-3">
     <div class="card mb-4">
       <div class="card-body">
-        <h5 class="card-title">Summary</h5>
+        <h5 class="card-title">About Us</h5>
         <p class="card-text">
           <% @club.summary.split("\n").each do |line| %>
           <%= line %>
           </br>
           <% end %>
         </p>
+          <span style="color:grey;">Tags:</span> 
+      <% @club.categories.each do |category| %>
+      <span class="badge badge-pill badge-info"><%= category.description %></span>
+      <% end %>
       </div>
     </div>
     <div class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title">Schedule</h5>
-        <p class="card-text">
+        <div class="card-body">
+          <h5 class="card-title">Schedule</h5>
+            <p class="card-text">
           <% @club.schedule.split("\n").each do |line| %>
           <%= line %>
           </br>
           <% end %>
-        </p>
+          </p>
+        </div>
       </div>
-    </div>
+    <div class="card mb-4">
+      <div class="card-body">
+      <h5 class="card-title"><%= @club.fans.count %> People Like This:</h5>
+        <ul class="list-group">
+              <% @club.fans.each do |user| %>
+              <li class="list-group-item">
+                  <a href="/users/<%= user.id %>">
+                      <%= user.firstname %> <%= user.lastname %>
+                  </a>
+              </li>
+            <% end %>
+          </ul>
+      </div>
   </div>
 </div>
-<div class="row p-4">
-    <div class="col-md-12">
-     Events go here
-    </div>
-</div>
+
 </div>
 
-
-<div class="row p-4">
-    <div class="col-md-6">
-      <a href="/clubprofile_edit/<%= @club.id %>" class="btn btn-primary btn-block">
-  Edit club
-    </a>
-    </div>
-    <div class="col-md-6">
-      <a href="/clubprofile_edit/<%= @club.id %>" class="btn btn-primary btn-block">
-  Post Event
-    </a>
-    </div>
-  </div>

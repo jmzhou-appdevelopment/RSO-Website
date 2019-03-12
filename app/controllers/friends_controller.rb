@@ -63,7 +63,7 @@ class FriendsController < ApplicationController
     if @friend.valid?
       @friend.save
 
-      redirect_back(:fallback_location => "/friends", :notice => "Friend created successfully.")
+      redirect_back(:fallback_location => "/friends", :notice => "Friend requested.")
     else
       render("friend_templates/new_form_with_errors.html.erb")
     end
@@ -72,12 +72,11 @@ class FriendsController < ApplicationController
   def edit_form
     @friend = Friend.find(params.fetch("prefill_with_id"))
 
-    redirect_back(:fallback_location => "/myfriends", :notice => "Friend request accepted.")
+    render("friend_templates/edit_form.html.erb")
   end
 
   def update_row
     @friend = Friend.find(params.fetch("id_to_modify"))
-
     @friend.inviter_id = params.fetch("inviter_id")
     @friend.invitee_id = params.fetch("invitee_id")
     @friend.status = params.fetch("status")
@@ -85,7 +84,7 @@ class FriendsController < ApplicationController
     if @friend.valid?
       @friend.save
 
-      redirect_to("/friends/#{@friend.id}", :notice => "Friend updated successfully.")
+      redirect_back(:fallback_location => "/myfriends", :notice => "Friend status updated.")
     else
       render("friend_templates/edit_form_with_errors.html.erb")
     end

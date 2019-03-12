@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row p-4">
+    <div class="col-md-12 text-center">
+      <h1><%= @user.firstname%> <%= @user.lastname%></h1>
+    </div>
+  </div>
+  <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4"><%= @message %></h1>
+    </br>
+    <% if @display_type == 0 %>
+        <form action="/create_friend" method="post">
+          <input type="hidden" name="inviter_id" value="<%= current_user.id %>">
+          <input type="hidden" name="invitee_id" value="<%= @user.id %>">
+          <input type="hidden" name="status" value=0>
+          <button type="submit" class="btn btn-primary">Send Friend Request</button>
+        </form>
+    <% elsif @display_type == 1 %>
+        <form action="/update_friend/<%= @user.friend_request_list_where_inviter.find_by(invitee_id: current_user.id).id %>" method="post">
+          <input type="hidden" name="inviter_id" value="<%= @user.id %>">
+          <input type="hidden" name="invitee_id" value="<%= current_user.id %>">
+          <input type="hidden" name="status" value=1>
+          <button type="submit" class="btn btn-primary">Accept Friend Request</button>
+        </form>
+    <% elsif @display_type == 2 %>
+        <a href="/delete_friend/<%= @user.friend_request_list_where_invitee.find_by(inviter_id: current_user.id).id %>" class="btn btn-warning">Cancel Friend Request</a>
+    <% end %>
+  </div>
+</div>

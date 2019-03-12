@@ -31,16 +31,18 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+          <% if current_user.id == 1 %>
           <li class="nav-item"><a class="nav-link" href="/clubs">Clubs</a></li>
           <li class="nav-item"><a class="nav-link" href="/events">Events</a></li>
           <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
           <li class="nav-item"><a class="nav-link" href="/enrollments">Enrollments</a></li>
           <li class="nav-item"><a class="nav-link" href="/attendances">Attendance</a></li>
-          <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
           <li class="nav-item"><a class="nav-link" href="/categories">Categories</a></li>
           <li class="nav-item"><a class="nav-link" href="/tags">Tags</a></li>
           <li class="nav-item"><a class="nav-link" href="/experiment">Experiment</a></li>
           <li class="nav-item"><a class="nav-link" href="/friends">All Friend Relationships</a></li>
+          <% end %>
+          <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
           <li class="nav-item"><a class="nav-link" href="/myfriends">My Friends</a></li>
           <li class="nav-item"><a class="nav-link" href="/myfavorites">My Favorites</a></li>
           
@@ -65,14 +67,14 @@
       </div>
     </nav>
       <% if notice.present? %>
-        <div class="alert alert-dismissable alert-success">
+        <div class="alert alert-dismissable alert-success mb-0">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <%= notice %>
         </div>
       <% end %>
 
       <% if alert.present? %>
-        <div class="alert alert-dismissable alert-warning">
+        <div class="alert alert-dismissable alert-warning mb-0">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           <%= alert %>
         </div>

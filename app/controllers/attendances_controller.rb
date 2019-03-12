@@ -20,7 +20,7 @@ class AttendancesController < ApplicationController
   def create_row
     @attendance = Attendance.new
 
-    @attendance.student_id = params.fetch("student_id")
+    @attendance.user_id = params.fetch("user_id")
     @attendance.event_id = params.fetch("event_id")
 
     if @attendance.valid?
@@ -41,7 +41,7 @@ class AttendancesController < ApplicationController
   def update_row
     @attendance = Attendance.find(params.fetch("id_to_modify"))
 
-    @attendance.student_id = params.fetch("student_id")
+    @attendance.user_id = params.fetch("user_id")
     @attendance.event_id = params.fetch("event_id")
 
     if @attendance.valid?

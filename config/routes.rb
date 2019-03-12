@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   # UPDATE
   get("/friends/:prefill_with_id/edit", { :controller => "friends", :action => "edit_form" })
   post("/update_friend/:id_to_modify", { :controller => "friends", :action => "update_row" })
+  post("/share", { :controller => "friends", :action => "create_shares" })
 
   # DELETE
   get("/delete_friend/:id_to_remove", { :controller => "friends", :action => "destroy_row" })

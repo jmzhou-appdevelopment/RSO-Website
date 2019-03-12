@@ -66,3 +66,29 @@
     How can I use this javascript code (for resizing images) 
     
 </p>
+
+<div class="card" style="width: 16rem;">
+  <div class="card-header text-center">
+    Type
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="custom-control custom-radio">
+  <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" value="clubfilter"
+  <% if @clubfilter.present? %>
+        checked 
+        <% end %>>
+  <label class="custom-control-label" for="customRadio1">Clubs</label>
+</div>
+</li>
+<li class="list-group-item">
+<div class="custom-control custom-radio">
+  <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" value="eventfilter"
+  <% if @eventfilter.present? %>
+        checked 
+        <% end %>>
+  <label class="custom-control-label" for="customRadio2">Events</label>
+</div>
+</li>
+  </ul>
+</div>
