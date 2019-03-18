@@ -1,0 +1,91 @@
+<div class="container-fluid">
+  <% if @club.present? %>
+  <% @club.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <%= message %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+  <% end %>
+<% end %>
+<div class="row mt-4">
+  
+</div>
+
+<form action="/create_club" method="post" >
+  <div class="row p-4">
+    <div class="col-md-12">
+      <!-- Label and input for title -->
+  <div class="form-group">
+    <label for="title">
+      Title
+    </label>
+
+    <input type="text" id="title" name="title" class="form-control">
+  </div>
+
+
+  <!-- Label and input for duration -->
+  <div class="form-group">
+    <label for="blurb">
+     Blurb
+    </label>
+
+    <input type="text" id="blurb" name="blurb" class="form-control">
+  </div>
+    </div>
+  </div>
+  <div class="row ml-5 mr-5">
+    <div class="col-md-3 p-3">
+      <div class="card mb-4">
+        <div class="card-body">
+        <h5 class="card-title">How to Get Involved</h5>
+        <textarea id="getinvolved" name="getinvolved" class="form-control" rows="10"></textarea>
+        </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-body">
+        <h5 class="card-title">Commitment</h5>
+        <textarea id="commitment" name="commitment" class="form-control" rows="10"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 p-3">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Profile Picture</h5>
+          Image Source:
+          </br>
+          <input type="text" id="image_url" name="image_url" class="form-control">
+        </div>
+      </div>
+  </div>
+  <div class="col-md-3 p-3">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">About Us</h5>
+        <textarea id="summary" name="summary" class="form-control" rows="10"></textarea>
+      </div>
+    </div>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Schedule</h5>
+        <textarea id="schedule" name="schedule" class="form-control" rows="10"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <input type="hidden" name="admin_user_id" value="<%= current_user.id %>">
+  
+  
+<button type="submit" class="btn btn-success btn-block">
+  Create New Club
+  </button>
+</form>
+</br></br></br>
+</div>
+
+

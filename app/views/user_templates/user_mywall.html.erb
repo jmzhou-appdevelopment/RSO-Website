@@ -1,0 +1,297 @@
+<div class="container-fluid">
+  <div class="row p-4">
+    <div class="col-md-12 text-center">
+      <h1>Welcome, <%= @user.firstname %></h1>
+    </div>
+  </div>
+  <div class="row ml-5 mr-5">
+    <div class="col-md-3 p-3">
+     
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5>
+                My Friends <span class="badge badge-secondary"><%= @friend_hashs.count %> </span>
+            </h5>
+          </div>
+          <ul class="list-group">
+            <% if @friend_hashs == [ ] %>
+            <li class="list-group-item">
+              You don't have any friends yet.
+            </li>
+            <% end %>
+              <% @friend_hashs.each do |f| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col-md-9">
+                    <a href="/users/<%= f.fetch("id") %>">
+                      <% friend = User.find_by(id: f.fetch("id")) %>
+                      <%= friend.firstname %> <%= friend.lastname %>
+                  </a>
+                  </div>
+                  <div class="col-md-3">
+                    <a href="/delete_friend/<%= f.fetch("fr").id %>" class="btn btn-light">
+                      <i class="fas fa-user-times"></i>
+                    </a>
+                  </form>
+                  </div>
+                 </div> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5>
+                Friend Requests <span class="badge badge-secondary"> <%= @pending_invite_ids.count %> </span>
+            </h5>
+          </div>
+          <ul class="list-group">
+            <% if @pending_invite_ids == [ ] %>
+            <li class="list-group-item">
+              You don't have any friend requests to respond to.
+            </li>
+            <% end %>
+              <% @pending_invite_ids.each do |fr| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col-md-8">
+                    <a href="/users/<%= fr.inviter_id %>">
+                      <% inviter = User.find_by(id: fr.inviter_id) %>
+                      <%= inviter.firstname %> <%= inviter.lastname %>
+                  </a>
+                  </div>
+                  <div class="col-md-2">
+                  <form action="/update_friend/<%= fr.id %>"method="post">
+                    <input type="hidden" name="inviter_id" value="<%= fr.inviter_id %>">
+                    <input type="hidden" name="invitee_id" value="<%= current_user.id %>">
+                    <input type="hidden" name="status" value="1">
+                    <button type="submit" class="btn btn-success">
+                      <i class="fas fa-check-square"></i>
+                    </button>
+                  </form>
+                  
+                  </div>
+                  <div class="col-md-2">
+                    <a href="/delete_friend/<%= fr.id %>" class="btn btn-danger">
+                      <i class="fas fa-times"></i>
+                    </a>
+                  </div>
+                  
+                 </div> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5>
+                Pending Invites <span class="badge badge-secondary"><%= @pending_request_ids.count %></span>
+            </h5>
+          </div>
+          <ul class="list-group">
+            <% if @pending_request_ids == [ ] %>
+            <li class="list-group-item">
+              You don't have any pending friend invites.
+            </li>
+            <% end %>
+              <% @pending_request_ids.each do |fr| %>
+              <li class="list-group-item">
+                  <a href="/users/<%= fr.invitee_id %>">
+                      <% invitee = User.find_by(id: fr.invitee_id) %>
+                      <%= invitee.firstname %> <%= invitee.lastname %>
+                  </a>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+ 
+
+
+      
+    </div>
+    <div class="col-md-6 p-3">
+      <div class="card mb-4">
+          <div class="card-header">
+            <h5>
+                My Favorited Events <span class="badge badge-secondary"><%= @favorites_event_ids.count %> </span>
+            </h5>
+         
+          </div>
+          <ul class="list-group">
+            <% if @favorites_event_ids == [ ] %>
+            <li class="list-group-item">
+              You don't have any favorited events yet.
+            </li>
+            <% end %>
+              <% @favorites_event_ids.each do |event_id| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col-md-4">
+                    <a href="#">
+                      <% event = Event.find_by(id: event_id) %>
+                      <%= event.title %>
+                    </a>
+                  </div>
+                  <div class="col-md-4">
+                    <%= event.time.strftime("%b %e at %l %p") %>
+                  </div>
+                  <div class="col-md-3">
+                    
+                    <% if Time.now - event.time > 0 %>
+                    <%= time_ago_in_words(event.time) %>  ago
+                    <% elsif event.time - Time.now < 7.days %>
+                    <font color="red"><%= time_ago_in_words(event.time) %> away</font>
+                    <% else %>
+                    <%= time_ago_in_words(event.time) %> away
+                    <% end %>
+                  </div>
+                  <div class="col-md-1">
+                    <a href="/delete_attendance/<%= Attendance.find_by(event_id: event_id, user_id: current_user.id).id %>" class="btn btn-light">
+                      <i class="fas fa-times"></i>
+                    </a>
+                  </form>
+                  </div>
+                 </div> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5>
+                Events Shared with You <span class="badge badge-secondary"><%= @shared_event_ids.count %> </span>
+            </h5>
+         
+          </div>
+          <ul class="list-group">
+            <% if @shared_event_ids == [ ] %>
+            <li class="list-group-item">
+              You don't have any shares to respond to.
+            </li>
+            <% end %>
+            <% @shared_by_id_index = 0 %>
+              <% @shared_event_ids.each do |event_id| %>
+              <% @sharer_id = @shared_by_ids[@shared_by_id_index] %>
+              <% @share = Share.find_by(shared_item_id: event_id, sharee_id: current_user.id, sharer_id: @sharer_id) %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col-md-4">
+                    <a href="#">
+                      <% event = Event.find_by(id: event_id) %>
+                      <%= event.title %>
+                    </a>
+                  </div>
+                  <div class="col-md-3">
+                    <%= event.time.strftime("%b %e at %l %p") %>
+                  </div>
+                  <div class="col-md-3">
+                    
+                  Shared by 
+                  <a href="/users/<%= @sharer_id.to_i %>">
+                    <%= User.find_by(id: @sharer_id).firstname %> <%= User.find_by(id: @sharer_id).lastname[0] %>.
+                  </a> 
+                  </div>
+                  <div class="col-md-1">
+                  <form action="/accept_share" method="post">
+                    <input type="hidden" name="user_id" value="<%= current_user.id %>">
+                    <input type="hidden" name="event_id" value="<%= event.id %>">
+                    <input type="hidden" name="shared_item_id" value="<%= event.id %>">
+                    <input type="hidden" name="share_id" value="<%= @share.id %>">
+                    <button type="submit" class="btn btn-success">
+                      <i class="fas fa-check-square"></i>
+                    </button>
+                  </form>
+                  
+                  </div>
+                  <div class="col-md-1">
+                    <a href="/delete_share/<%= @share.id %>" class="btn btn-danger">
+                      <i class="fas fa-times"></i>
+                    </a>
+                  </div>
+                 </div> 
+              </li>
+              <% @shared_by_id_index = @shared_by_id_index + 1 %>
+            <% end %>
+          </ul>
+        </div>
+  </div>
+  <div class="col-md-3 p-3">
+    <div class="card mb-4">
+          <div class="card-header">
+            <h5>
+                My Favorited Clubs <span class="badge badge-secondary"><%= @favorites_club_ids.count %> </span>
+            </h5>
+         
+          </div>
+          <ul class="list-group">
+            <% if @favorites_club_ids == [ ] %>
+            <li class="list-group-item">
+              You don't have any favorited clubs yet.
+            </li>
+            <% end %>
+              <% @favorites_club_ids.each do |club_id| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col-md-10">
+                    <a href="/clubprofile/<%= club_id %>">
+                      <% club = Club.find_by(id: club_id) %>
+                      <%= club.title %>
+                  </a>
+                  </div>
+                  <div class="col-md-2">
+                    <a href="/delete_favorite/<%= Favorite.find_by(club_id: club_id, user_id: current_user.id).id %>" class="btn btn-light">
+                      <i class="fas fa-times"></i>
+                    </a>
+                  </form>
+                  </div>
+                 </div> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+<% if Club.all.pluck(:admin_user_id).include? current_user.id %>
+<% @adminof_club_ids = Club.all.where(admin_user_id: current_user.id).ids %>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5>
+                My Clubs <span class="badge badge-secondary"><%= @adminof_club_ids.count %> </span>
+            </h5>
+         
+          </div>
+          <ul class="list-group">
+              <% @adminof_club_ids.each do |club_id| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    <div class="col-md-9">
+                      <a href="/clubprofile/<%= club_id %>">
+                      <% club = Club.find_by(id: club_id) %>
+                      <%= club.title %>
+                  </a>
+                    </div>
+                    <div class="col-md-3">
+                    <a href="/clubprofile_edit/<%= club_id %>" class="btn btn-light">
+                      Edit
+                    </a>
+                    </div>
+                  </div>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <% end %>
+        <a href="/clubprofile_create" class="btn btn-primary btn-block">
+          Create Club
+        </a>
+</div>
+<div class="row p-4">
+</div>
+</div>
+
+<%= @message %>

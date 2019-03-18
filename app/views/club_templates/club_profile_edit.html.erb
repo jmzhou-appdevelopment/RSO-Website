@@ -14,6 +14,12 @@
   
 </div>
 
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">Edit "<%= @club.title %>"</h1>
+  </div>
+</div>
+
 <form action="/update_club/<%= @club.id %>" method="post" >
   <div class="row p-4">
     <div class="col-md-12">
@@ -62,17 +68,17 @@
           <input type="text" id="image_url" name="image_url" class="form-control" value="<%= @club.source %>">
         </div>
       </div>
-      <div class="card mb-4 pl-4">
-        <div class="card-body">
-          <h5 class="card-title">Events</h5>
-          <a href="/events/new" class="btn btn-success btn-block">
-            Create New Event
-          </a>
-          <a href="#" class="btn btn-light btn-block">
-            Edit Past Events
-          </a>
-        </div>
-      </div>
+      <div class="form-group">
+    <label for="admin_user_id">
+      Club Admin
+    </label>
+
+    <%= select_tag("admin_user_id", options_from_collection_for_select(User.all, :id, :firstname, current_user.id), :class => "form-control") %>
+  </div>
+  
+<button type="submit" class="btn btn-warning btn-block">
+  Save Changes
+  </button>
   </div>
   <div class="col-md-3 p-3">
     <div class="card mb-4">
@@ -90,22 +96,24 @@
   </div>
 </div>
 
-<div class="form-group">
-    <label for="admin_user_id">
-      Club Admin
-    </label>
-
-    <%= select_tag("admin_user_id", options_from_collection_for_select(User.all, :id, :firstname, @club.try(:admin_user_id)), :class => "form-control") %>
-  </div>
-  
-<button type="submit" class="btn btn-warning btn-block">
-  Save Changes
-  </button>
 </form>
+<div class="card mb-4 pl-4">
+        <div class="card-body">
+          <h5 class="card-title">Events</h5>
+          <form action="/post_event" method="post">
+            <input type="hidden" name="club_id" value="<%= @club.id %>">
+          <button class="btn btn-success btn-block">
+            Create New Event
+          </button>
+          </form>
+          
+          <a href="#" class="btn btn-light btn-block">
+            Edit Past Events
+          </a>
+        </div>
+      </div>
 <div class="row p-4">
-    <div class="col-md-12">
-     Events go here
-    </div>
+    
 </div>
 </div>
 

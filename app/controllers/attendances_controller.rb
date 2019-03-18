@@ -28,7 +28,7 @@ class AttendancesController < ApplicationController
 
       redirect_back(:fallback_location => "/attendances", :notice => "Attendance created successfully.")
     else
-      render("attendance_templates/new_form_with_errors.html.erb")
+      redirect_back(:fallback_location => "/attendances", :notice => "Not created.")
     end
   end
 
@@ -58,6 +58,6 @@ class AttendancesController < ApplicationController
 
     @attendance.destroy
 
-    redirect_to("/attendances", :notice => "Attendance deleted successfully.")
+    redirect_back(:fallback_location => "/attendances", :notice => "Attendance deleted successfully.")
   end
 end

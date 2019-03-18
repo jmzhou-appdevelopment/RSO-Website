@@ -11,3 +11,4 @@
 // about supported directives.
 //
 //= require rails-ujs
+//= require tempusdominus-bootstrap-4.js

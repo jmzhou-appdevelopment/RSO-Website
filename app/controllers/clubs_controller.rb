@@ -68,6 +68,7 @@ class ClubsController < ApplicationController
           end
         end
       end
+      cookies[:friendcount] = @friend_hashs.count
     end
     render("club_templates/search.html.erb")
   end
@@ -126,6 +127,10 @@ class ClubsController < ApplicationController
   def new_form
     render("club_templates/new_form.html.erb")
   end
+  
+  def clubprofile_create
+    render("club_templates/club_profile_new.html.erb")
+  end
 
   def create_row
     @club = Club.new
@@ -140,7 +145,7 @@ class ClubsController < ApplicationController
     @club.admin_user_id = params.fetch("admin_user_id")
     if @club.valid?
       @club.save
-      redirect_to("/clubs", :notice => "Club created successfully.")
+      redirect_to("/clubssearch", :notice => "Club created successfully.")
     else
       render("club_templates/new_form.html.erb")
     end
@@ -256,7 +261,65 @@ class ClubsController < ApplicationController
     end
   end
   
+  def user_mywall
+  @friend_hashs = [ ]
+      
+      @pending_invite_ids = [ ]
+      @pending_request_ids = [ ]
+      Friend.all.each do |friend|
+       if current_user.id == friend.invitee_id
+         if friend.status == 0
+           @pending_invite_ids << friend
+         else friend.status == 1
+           f = Hash.new
+           f["fr"] = friend
+           f["id"] = friend.inviter_id
+           @friend_hashs << f
+         end
+       end
+       if current_user.id == friend.inviter_id
+         if friend.status == 0
+          @pending_request_ids << friend
+         else friend.status == 1
+           f = Hash.new
+           f["fr"] = friend
+           f["id"] = friend.invitee_id
+           @friend_hashs << f
+          end
+       end
+      end
+      @user = User.find_by(id: current_user.id)
+      @favorites_club_ids = Favorite.where(user_id: current_user.id).pluck(:club_id)
+      @favorites_event_ids = Attendance.where(user_id: current_user.id).pluck(:event_id)
+      @shared_event_ids = Share.where(sharee_id: current_user.id).pluck(:shared_item_id)
+      @shared_by_ids = Share.where(sharee_id: current_user.id).pluck(:sharer_id)
+    render("/user_templates/user_mywall.html.erb")
+  end
+  
+  
   def show_club_profile
+    if current_user.present?
+      @friend_hashs = [ ]
+      Friend.all.each do |friend|
+        if current_user.id == friend.invitee_id
+          if friend.status == 1
+            f = Hash.new
+            f["fr"] = friend
+            f["id"] = friend.inviter_id
+            @friend_hashs << f
+          end
+        end
+        if current_user.id == friend.inviter_id
+          if friend.status == 1
+            f = Hash.new
+            f["fr"] = friend
+            f["id"] = friend.invitee_id
+            @friend_hashs << f
+          end
+        end
+      end
+      cookies[:friendcount] = @friend_hashs.count
+    end
     @club = Club.find(params.fetch("id_to_display"))
 
     render("club_templates/club_profile.html.erb")

@@ -1,0 +1,79 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      All shares
+    </h1>
+
+    
+  </div>
+</div>
+
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          ID
+        </th>
+
+        <th>
+          Sharer
+        </th>
+
+        <th>
+          Sharee
+        </th>
+
+        <th>
+          Type
+        </th>
+
+        <th>
+          Shared content 
+        <th>
+        </th>
+      </tr>
+
+      <% @shares.each do |share| %>
+      <tr>
+        <td>
+          <%= share.id %>
+        </td>
+
+        <td>
+          <a href="users/<%= share.sharer_id %>">
+             <%= User.find_by(id: share.sharer_id).firstname %>
+          </a>
+         
+        </td>
+
+        <td>
+          <a href="users/<%= share.sharee_id %>">
+             <%= User.find_by(id: share.sharee_id).firstname %>
+          </a>
+          
+        </td>
+
+        <td>
+          <%= share.share_type %>
+        </td>
+
+        <td>
+          <% if share.share_type == "event" %>
+          <%= Event.find_by(id: share.shared_item_id).title %>
+          <%else %>
+          Not an event
+          <%end%>
+        </td>
+
+        <td>
+          
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

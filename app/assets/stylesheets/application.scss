@@ -9,7 +9,6 @@
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
- *
  *= require_self
  */
 
@@ -22,3 +21,7 @@
     color: white;
     text-shadow: black 0.3em 0.3em 0.3em;
 }
+
+@import "tempusdominus-bootstrap-4.css"
+
+

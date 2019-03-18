@@ -16,9 +16,11 @@
         <div class="card-body">
         <h5 class="card-title">How to Get Involved</h5>
         <p class="card-text">
+          <% if @club.getinvolved.present? %>
           <% @club.getinvolved.split("\n").each do |line| %>
           <%= line %>
           </br>
+          <% end %>
           <% end %>
           </p>
         </div>
@@ -28,9 +30,11 @@
         <div class="card-body">
         <h5 class="card-title">Commitment</h5>
         <p class="card-text">
+          <% if @club.commitment.present? %>
           <% @club.commitment.split("\n").each do |line| %>
           <%= line %>
           </br>
+          <% end %>
           <% end %>
         </p>
         </div>
@@ -80,21 +84,20 @@
           </div>
         </div>
         <div class="btn-group btn-group-sm" role="group" aria-label="...">
-            <a class="btn btn-light w-100" href="/delete_favorite/">
-              <i class="fas fa-heart" style="color:red"></i>
-            </a>
-              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>favorite">
-                <i class="fas fa-heart"></i>
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>share">
+                <i class="fas fa-share"></i>
               </button>
-                <a href="/events/<%= event.id %>" class="btn btn-light w-100">
-                Full profile
-             </a>
-              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>">
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>rsvp">
+                RSVP
+              </button> 
+              <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>show">
                 <i class="fas fa-search-plus"></i>
               </button>
             </div>
+              
+          
 
-<div class="modal fade <%= event.id %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade <%= event.id %>show" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -127,6 +130,103 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade <%= event.id %>share" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="col-12 modal-title text-center">Share this event
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <form action="/share" method="post">
+          <div class="card">
+            <div class="card-header text-center">
+              <h5>
+                  My Friends <span class="badge badge-secondary"><%= cookies[:friendcount] %> </span>
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <% if @friend_hashs == [ ] %>
+              <li class="list-group-item">
+                You don't have any friends yet.
+              </li>
+              <% end %>
+              <% @friend_count = 0 %>
+              <% @friend_hashs.each do |f| %>
+              <li class="list-group-item">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="friend<%= @friend_count %>" name="friend<%= @friend_count %>" value="<%= f.fetch("id") %>">
+                  <label class="custom-control-label" for="friend<%= @friend_count %>">
+                    <a href="/users/<%= f.fetch("id") %>">
+                      <% friend = User.find_by(id: f.fetch("id")) %>
+                      <%= friend.firstname %> <%= friend.lastname %>
+                    </a>
+                  </label>
+                </div>
+              </li>
+              <% @friend_count = @friend_count + 1 %>
+              <% end %>
+            </ul>
+          </div>
+        <div class="row mt-3">
+          <div class="col-md-12 text-center">
+            <input type="hidden" name="shared_item_id" value="<%= event.id %>">
+            <input type="hidden" name="share_type" value="event">
+            <button class="btn btn-block btn-outline-secondary">
+              Share
+            </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade <%= event.id %>rsvp"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="col-12 modal-title text-center">RSVP for <%= event.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+            <p style="font-size:1rem">
+              You're about to RSVP this event and add it to favorites.  
+            </p>
+            <p style="font-size:1rem">
+            You can configure reminders and notifications 
+            in your account settings. 
+            </p>
+            
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <form action="/create_attendance" method="post">
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+              <input type="hidden" name="event_id" value="<%= event.id %>">
+                <button class="btn btn btn-outline-info">
+                  RSVP
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
    </div>
     </div>
     <% count = count + 1 %>
@@ -141,9 +241,11 @@
       <div class="card-body">
         <h5 class="card-title">About Us</h5>
         <p class="card-text">
+          <% if @club.summary.present? %>
           <% @club.summary.split("\n").each do |line| %>
           <%= line %>
           </br>
+          <% end %>
           <% end %>
         </p>
           <span style="color:grey;">Tags:</span> 
@@ -156,9 +258,11 @@
         <div class="card-body">
           <h5 class="card-title">Schedule</h5>
             <p class="card-text">
+          <% if @club.schedule.present? %>
           <% @club.schedule.split("\n").each do |line| %>
           <%= line %>
           </br>
+          <% end %>
           <% end %>
           </p>
         </div>

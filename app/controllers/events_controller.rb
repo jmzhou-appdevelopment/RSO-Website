@@ -14,6 +14,11 @@ class EventsController < ApplicationController
   def new_form
     render("event_templates/new_form.html.erb")
   end
+  
+  def blank_form
+    @club = Club.find(params.fetch("club_id"))
+    render("event_templates/post_event.html.erb")
+  end
 
   def create_row
     @event = Event.new
@@ -22,14 +27,14 @@ class EventsController < ApplicationController
     @event.image = params.fetch("image_url")
     @event.description = params.fetch("description")
     @event.blurb = params.fetch("blurb")
-    @event.time = params.fetch("time")
+    @event.time = Chronic.parse(params.fetch("time"))
     @event.location = params.fetch("location")
     @event.club_id = params.fetch("club_id")
      if @event.valid?
       @event.save
-      redirect_to("/events", :notice => "Event created successfully.")
+      redirect_to("/search", :notice => "Event created successfully.")
     else
-      render("event_templates/new_form.html.erb")
+      render("event_templates/post_event.html.erb")
     end
 
   end
@@ -39,6 +44,7 @@ class EventsController < ApplicationController
 
     render("event_templates/edit_form.html.erb")
   end
+  
 
   def update_row
     @event = Event.find(params.fetch("id_to_modify"))
@@ -47,7 +53,7 @@ class EventsController < ApplicationController
     @event.image = params.fetch("image_url")
     @event.description = params.fetch("description")
     @event.blurb = params.fetch("blurb")
-    @event.time = params.fetch("time")
+    @event.time = Chronic.parse(params.fetch("time"))
     @event.location = params.fetch("location")
     @event.club_id = params.fetch("club_id")
     if @event.valid?
@@ -66,6 +72,10 @@ class EventsController < ApplicationController
     
     @event.attendances.each do |attendance|
       attendance.destroy
+    end
+    
+    @event.shares.each do |share|
+      share.destroy
     end
 
 

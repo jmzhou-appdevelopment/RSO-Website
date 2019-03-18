@@ -26,17 +26,17 @@
 
     <dl>
       <dt>
-        Student
+        User
       </dt>
       <dd>
-        <%= @attendance.student_id %>
+        <%= User.find_by(id: @attendance.user_id).firstname %>
       </dd>
 
       <dt>
         Event
       </dt>
       <dd>
-        <%= @attendance.event_id %>
+        <%= Event.find_by(id: @attendance.event_id).title %>
       </dd>
 
       <dt>

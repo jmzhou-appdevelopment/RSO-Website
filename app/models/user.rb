@@ -28,6 +28,8 @@ class User < ApplicationRecord
   has_many :clubs, :through => :enrollments
   has_many :favorites
   has_many :favoriteclubs, :through => :favorites, :source => :club
+  has_many :attendances
+  has_many :events, :through => :attendances
   has_many :friend_request_list_where_inviter, :class_name => "Friend" , :foreign_key => "inviter_id"
   has_many :friend_requests_where_inviter, :through => :friend_request_list_where_inviter , :source => :invitee
   has_many :friend_request_list_where_invitee, :class_name => "Friend" , :foreign_key => "invitee_id"

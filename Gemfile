@@ -78,9 +78,12 @@ group :test do
 end
 
 gem "activeadmin"
-gem "devise"
 
 gem 'mailgun-ruby', '~>1.1.6'
 gem 'twilio-ruby', '~> 5.20.1'
 gem 'ransack'
 gem 'devise'
+
+gem 'bootstrap4-datetime-picker-rails'
+
+gem 'chronic'

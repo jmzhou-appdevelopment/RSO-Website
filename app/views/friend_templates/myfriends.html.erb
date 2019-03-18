@@ -67,7 +67,7 @@
                   <form action="/update_friend/<%= fr.id %>"method="post">
                     <input type="hidden" name="inviter_id" value="<%= fr.inviter_id %>">
                     <input type="hidden" name="invitee_id" value="<%= current_user.id %>">
-                    <input type="hidden" name="status" value="<%= fr.inviter_id %>">
+                    <input type="hidden" name="status" value="1">
                     <button type="submit" class="btn btn-primary">
                       Accept
                     </button>

@@ -13,11 +13,13 @@ Rails.application.routes.draw do
   # UPDATE
   get("/friends/:prefill_with_id/edit", { :controller => "friends", :action => "edit_form" })
   post("/update_friend/:id_to_modify", { :controller => "friends", :action => "update_row" })
-  post("/share", { :controller => "friends", :action => "create_shares" })
+  post("/share", { :controller => "shares", :action => "create_shares" })
+  get("/shares", { :controller => "shares", :action => "index" })
 
   # DELETE
   get("/delete_friend/:id_to_remove", { :controller => "friends", :action => "destroy_row" })
-
+  get("/delete_share/:id_to_remove", { :controller => "shares", :action => "destroy_row" })
+  post("/accept_share", { :controller => "shares", :action => "accept_share" })
   #------------------------------
 
   # Routes for the Favorite resource:
@@ -45,6 +47,7 @@ Rails.application.routes.draw do
   #Routes for Users
   get("/users", { :controller => "clubs", :action => "show_users" })
   get("/users/:id_to_display" , { :controller => "clubs", :action => "user_wall"})
+  get("/mywall", { :controller => "clubs", :action => "user_mywall"})
   # Routes for the Attendance resource:
   # CREATE
   get("/attendances/new", { :controller => "attendances", :action => "new_form" })
@@ -116,7 +119,7 @@ Rails.application.routes.draw do
   get("/clubs/:id_to_display", { :controller => "clubs", :action => "show" })
   get("/clubprofile/:id_to_display", { :controller => "clubs", :action => "show_club_profile" })
   get("/clubprofile_edit/:prefill_with_id", { :controller => "clubs", :action => "show_club_profile_edit" })
-
+  get("/clubprofile_create", { :controller => "clubs", :action => "clubprofile_create" })
 
   # UPDATE
   get("/clubs/:prefill_with_id/edit", { :controller => "clubs", :action => "edit_form" })
@@ -129,11 +132,12 @@ Rails.application.routes.draw do
 
   # Routes for the events resource:
 
-  get("/", { :controller => "clubs", :action => "index" })
+  get("/", { :controller => "clubs", :action => "search" })
 
   # CREATE
   get("/events/new", { :controller => "events", :action => "new_form" })
   post("/create_event", { :controller => "events", :action => "create_row" })
+  post("/post_event", { :controller => "events", :action => "blank_form" })
 
   # READ
   get("/events", { :controller => "events", :action => "index" })

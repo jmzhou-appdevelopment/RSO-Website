@@ -7,7 +7,7 @@
   <div class="row ml-5 mr-5">
     <div class="col-md-3 p-3">
       <div class="card mb-4">
-        <span class="badge badge-primary">Friends</span>
+        <button class="btn btn-success w-100">Friended</button>
       </div>
       <div class="card mb-4">
       <div class="card-body">
@@ -30,11 +30,11 @@
   <div class="col-md-3 p-3">
     <div class="card mb-4">
       <div class="card-body">
-      <h5 class="card-title"><%= @user.firstname%>'s likes (<%= @user.clubs.count %>)</h5>
+      <h5 class="card-title"><%= @user.firstname%>'s favorite clubs (<%= @user.favoriteclubs.count %>)</h5>
         <ul class="list-group">
-              <% @user.clubs.each do |club| %>
+              <% @user.favoriteclubs.each do |club| %>
               <li class="list-group-item">
-                  <a href="/club_profile/<%= club.id %>">
+                  <a href="/clubprofile/<%= club.id %>">
                       <%= club.title %>
                   </a>
               </li>
@@ -44,9 +44,6 @@
     </div>
 </div>
 <div class="row p-4">
-    <div class="col-md-12">
-     Events go here
-    </div>
 </div>
 </div>
 

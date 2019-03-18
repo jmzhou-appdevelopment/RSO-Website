@@ -1,0 +1,115 @@
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2">
+      <% if @event.present? %>
+  <% @event.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <%= message %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+  <% end %>
+<% end %>
+
+        <div class="card">
+          <div class="card-header center-text">
+            <h3>
+                New Event
+            </h3>
+            <h5>
+              <% unless @club.present? %>
+              <% @club = Club.find_by(id: @event.club_id) %>
+              <% end %>
+                   Club: <%= @club.title %>
+            </h5>
+          </div>
+          <div class="card-body">
+          <div class="row m-3">
+            <div class="col-md-6">
+              
+<form action="/create_event" method="post">
+ <input type="hidden" name="club_id" value="<%= @club.id %>">       
+              
+              <!-- Label and input for title -->
+  <div class="form-group">
+    <label for="title">
+      Title
+    </label>
+
+    <input type="text" id="title" name="title" class="form-control" value="<%= @event.try(:title) %>">
+  </div>
+
+  
+  <!-- Label and input for blurb -->
+  <div class="form-group">
+    <label for="blurb">
+      Blurb (30 characters max)
+    </label>
+
+    <input type="text" id="blurb" name="blurb" class="form-control" value="<%= @event.try(:blurb) %>">
+  </div>
+
+  <!-- Label and input for description -->
+  <div class="form-group">
+    <label for="description">
+      Description
+    </label>
+
+    <textarea id="description" name="description" class="form-control" rows="3"><%= @event.try(:description) %>
+    </textarea>
+  </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+    <label for="image_url">
+      Image url
+    </label>
+
+    <input type="text" id="image_url" name="image_url" class="form-control" value="<%= @event.try(:image) %>">
+  </div>
+              <!-- Label and input for time -->
+  <div class="form-group">
+    <label for="time">
+    Time
+    </label>
+
+            <div class="form-group">
+                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <input type="text" name="time" id="time" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="<%= @event.try(:time).strftime("%m/%d/%Y %I:%M% p") %>"/>
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+      
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+ 
+  </div>
+  
+  <!-- Label and input for location -->
+  <div class="form-group">
+    <label for="location">
+      Location
+    </label>
+
+    <input type="text" id="location" name="location" class="form-control" value="<%= @event.try(:location) %>">
+  </div>
+            </div>
+          </div>
+          <button class="btn btn-block btn-outline-secondary">
+    Create event
+  </button>
+          </div>
+       
+        </div>
+    </div>
+    
+</div>
+  
+</form>
+
