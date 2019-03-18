@@ -145,9 +145,9 @@ class ClubsController < ApplicationController
     @club.admin_user_id = params.fetch("admin_user_id")
     if @club.valid?
       @club.save
-      redirect_to("/clubssearch", :notice => "Club created successfully.")
+      render("club_templates/club_profile.html.erb", :notice => "Club created successfully.")
     else
-      render("club_templates/new_form.html.erb")
+      render("club_templates/club_profile_new.html.erb")
     end
 
   end
@@ -181,7 +181,6 @@ class ClubsController < ApplicationController
   def destroy_row
     @club = Club.find(params.fetch("id_to_remove"))
 
-    @club.destroy
     
     @club.enrollments.each do |enrollment|
       enrollment.destroy
@@ -190,6 +189,12 @@ class ClubsController < ApplicationController
     @club.tags.each do |tag|
       tag.destroy
     end
+    
+    @club.favorites.each do |favorite|
+      favorite.destroy
+    end
+    
+    @club.destroy
 
     redirect_to("/clubs", :notice => "Club deleted successfully.")
   end

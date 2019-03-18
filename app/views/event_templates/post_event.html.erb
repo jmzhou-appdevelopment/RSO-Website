@@ -56,8 +56,7 @@
       Description
     </label>
 
-    <textarea id="description" name="description" class="form-control" rows="3"><%= @event.try(:description) %>
-    </textarea>
+    <textarea id="description" name="description" class="form-control" rows="3"><%= @event.try(:description) %></textarea>
   </div>
             </div>
             <div class="col-md-6">
@@ -76,7 +75,10 @@
 
             <div class="form-group">
                 <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                    <input type="text" name="time" id="time" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="<%= @event.try(:time).strftime("%m/%d/%Y %I:%M% p") %>"/>
+                    <input type="text" name="time" id="time" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="
+                    <% unless @event.try(:time) == NIL %>
+                    <%= @event.try(:time).strftime("%m/%d/%Y %I:%M% p") %>
+                    <% end %>"/>
                     <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                     </div>

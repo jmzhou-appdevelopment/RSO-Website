@@ -12,9 +12,18 @@
           <ul class="list-group">
               <% @users.each do |user| %>
               <li class="list-group-item">
+                <% if user.id == current_user.id %>
+                <a href="/mywall">
+                  <%= user.firstname %> <%= user.lastname %> [Me]
+                </a>
+                <% else %>
                   <a href="/users/<%= user.id %>">
                       <%= user.firstname %>
                   </a>
+                  <% end %>
+                  
+                  
+                  
               </li>
             <% end %>
           </ul>

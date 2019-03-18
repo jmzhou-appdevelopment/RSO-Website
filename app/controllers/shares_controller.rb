@@ -26,9 +26,9 @@ class SharesController < ApplicationController
         i = i + 1
       end
       if success == 0
-        redirect_to("/search", :notice => "You did not select any friends")
+        redirect_back(:fallback_location => "/search", :notice => "You did not select any friends")
       else
-      redirect_to("/search", :notice => "Shared successfully")
+      redirect_back(:fallback_location => "/search", :notice => "Shared successfully")
       end
     else
       redirect_to("/search", :notice => "You need to be signed in")

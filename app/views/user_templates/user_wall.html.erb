@@ -15,9 +15,15 @@
         <ul class="list-group">
               <% @friend_hashs.each do |f| %>
               <li class="list-group-item">
+                <% if f.fetch("id") == current_user.id %>
+                <a href="/mywall">
+                  <%= User.find_by(id: f.fetch("id")).firstname %> <%= User.find_by(id: f.fetch("id")).lastname %> [Me]
+                </a>
+                <% else %>
                   <a href="/users/<%= f.fetch("id") %>">
                       <%= User.find_by(id: f.fetch("id")).firstname %> <%= User.find_by(id: f.fetch("id")).lastname %>
                   </a>
+                  <% end %>
               </li>
             <% end %>
           </ul>
@@ -25,7 +31,131 @@
     </div>
     </div>
     <div class="col-md-6 p-3">
-      second column
+      <div class="card mb-4">
+          <div class="card-header">
+            <h5>
+                <%= @user.firstname%>'s Favorited Events <span class="badge badge-secondary"><%= @user.events.count %> </span>
+            </h5>
+         
+          </div>
+          <ul class="list-group">
+            <% if @user.events.count == 0 %>
+            <li class="list-group-item">
+              None yet. Help them by sharing some events with them!
+            </li>
+            <% end %>
+              <% @user.events.each do |event| %>
+              <li class="list-group-item">
+                  <div class="row">
+                    
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-link" data-toggle="modal" data-target=".<%= event.id %>show">
+                      <%= event.title %>
+                    </button>
+                  </div>
+                  <div class="col-md-4">
+                    <%= event.time.strftime("%b %e at %l %p") %>
+                  </div>
+                  <div class="col-md-4">
+                    
+                    <% if Time.now - event.time > 0 %>
+                    <%= time_ago_in_words(event.time) %>  ago
+                    <% elsif event.time - Time.now < 7.days %>
+                    <font color="red"><%= time_ago_in_words(event.time) %> away</font>
+                    <% else %>
+                    <%= time_ago_in_words(event.time) %> away
+                    <% end %>
+                  </div>
+                 </div> 
+              </li>
+<div class="modal fade <%= event.id %>show" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h3 class="col-12 modal-title text-center"><%= event.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <img class="d-block w-100 mb-3" src="<%= event.image %>">
+               <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">When</button>
+                <div class="card-body">
+                  <p class="card-text">
+                    <%= event.time.strftime("%a, %b %e at %l %p") %>
+                  </p>
+                  <p class="card-text">
+                    <% if Time.now - event.time > 0 %>
+                    <%= time_ago_in_words(event.time) %>  ago
+                    <% elsif event.time - Time.now < 7.days %>
+                    <font color="red"><%= time_ago_in_words(event.time) %> away</font>
+                    <% else %>
+                    <%= time_ago_in_words(event.time) %> away
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Location</button>
+              <div class="card-body">
+                <p class="card-text">
+                  <%= event.location %>
+                </p>
+              </div>
+            </div>
+            
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Event Description</button>
+                <div class="card-body">
+                  <p class="card-text">
+                    <%= event.description %>
+                  </p>
+                </div>
+              </div>
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Hosted By</button>
+                <div class="card-body">
+                  <p class="card-text">
+                    <a href="/clubprofile/<%= Club.find_by(id: event.club_id).id %>">
+                      <%= Club.find_by(id: event.club_id).title %>
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <% if event.users.ids.include? current_user.id %>
+              <a href="/delete_attendance/<%= Attendance.find_by(user_id: current_user.id, event_id: event.id).id %>" class="btn btn-danger btn-outline">
+                Undo RSVP 
+              </a>
+              <% else %>
+              <form action="/create_attendance" method="post">
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+              <input type="hidden" name="event_id" value="<%= event.id %>">
+                <button class="btn btn btn-outline-info">
+                  RSVP
+                </button>
+              </form>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            <% end %>
+          </ul>
+        </div>
   </div>
   <div class="col-md-3 p-3">
     <div class="card mb-4">

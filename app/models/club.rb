@@ -24,11 +24,14 @@ class Club < ApplicationRecord
     validates :title, uniqueness: {
         message: "cannot have a name that already exists."
     }
+    validates :title, length: { maximum: 20 }, presence: true
+    validates :blurb, length: { maximum: 30 },presence: true
+    
     has_many :favorites
     has_many :fans, :through => :favorites, :source => :user
     
-    validates :summary, length: { maximum: 1000 }, allow_blank: true
-    validates :schedule, length: { maximum: 1000 },allow_blank: true
-    validates :commitment, length: { maximum: 1000 },allow_blank: true
-    validates :getinvolved, length: { maximum: 1000 },allow_blank: true
+    validates :summary, length: { maximum: 1000 }, presence: true
+    validates :schedule, length: { maximum: 1000 }, presence: true
+    validates :commitment, length: { maximum: 1000 }, presence: true
+    validates :getinvolved, length: { maximum: 1000 }, presence: true
 end

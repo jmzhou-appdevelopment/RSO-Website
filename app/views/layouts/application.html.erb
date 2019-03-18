@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My project (RSO)</title>
+    <title>RSO Webapp</title>
     <%= csrf_meta_tags %>
 
     <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
@@ -48,6 +48,8 @@
           <% end %>
           <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
           <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
+          <li class="nav-item"><a class="nav-link" href="/mywall">My Wall</a></li>
+          
         </ul>
         <ul class="navbar-nav">
         <% if current_user %>
@@ -56,9 +58,9 @@
           <%= current_user.firstname %>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/mywall">My Wall</a>
-          <!--<a class="dropdown-item" href="/notifications/users">Notifications</a>-->
-          <div class="dropdown-divider"></div>
+          <!--<a class="dropdown-item" href="/mywall">My Wall</a>
+          <a class="dropdown-item" href="/notifications/users">Notifications</a>
+          <div class="dropdown-divider"></div>-->
           <a class="dropdown-item" href="/users/edit">Edit Account</a>
         </div>
       </li>

@@ -61,25 +61,26 @@
 <% end %>
     <div class="col-md-6">
         <div class="card mb-3" style="width: 18.3rem;">
-          <img class="card-img-top" src="<%= event.image %>" alt="Card image cap" style="height:220px">
-          <div class="row mt-3  ml-3">
+          <img class="card-img-top" src="<%= event.image %>" onerror="this.src='https://storage.googleapis.com/indie-hackers.appspot.com/product-avatars/quick-and-simple-image-placeholders/bcohuFwnmPgIu4aM56YZudq12m02'" style="height:220px">
+          <div class="card-body">
              <h5 class="card-title"><%= event.title %></h5>
+                       <p>
+            <%= truncate(event.blurb) %>
+          </p>
           </div>
-          <div class="row mb-3 ml-3">
-            <%= event.blurb %>
-          </div>
+
+            
+          
           <div class="row mb-2">
             <div class="col-md-9 ml-2">
               <% event.club.categories.each do |category| %>
               <span class="badge badge-pill badge-info"><%= category.description %></span>
               <% end %>
             </div>
-          <div class="col-md-1">
-            <a href="/clubs">
-              <span class="badge badge-secondary">
-              <%= event.users.count %> <i class="fas fa-user"></i>
-              </span>
-            </a>
+          <div class="col-md-2 auto-mr">
+            <button class="btn btn-light btn-sm" data-toggle="modal" data-target=".<%= event.id %>eventpeople">
+                <span style="font-size:9pt"><%= event.users.count %> <i class="fas fa-user"></i></span>
+            </button>
             
           </div>
         </div>
@@ -87,9 +88,15 @@
               <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>share">
                 <i class="fas fa-share"></i>
               </button>
+              <% if event.users.ids.include? current_user.id %>
+              <button type="button" class="btn btn-success w-100" data-toggle="modal" data-target=".<%= event.id %>unrsvp">
+                Going
+              </button>
+              <% else %>
               <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>rsvp">
                 RSVP
               </button> 
+              <% end %>
               <button type="button" class="btn btn-light w-100" data-toggle="modal" data-target=".<%= event.id %>show">
                 <i class="fas fa-search-plus"></i>
               </button>
@@ -112,17 +119,69 @@
           <div class="row">
             <div class="col-md-6">
               <img class="d-block w-100 mb-3" src="<%= event.image %>">
+               <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">When</button>
+                <div class="card-body">
+                  <p class="card-text">
+                    <%= event.time.strftime("%a, %b %e at %l %p") %>
+                  </p>
+                  <p class="card-text">
+                    <% if Time.now - event.time > 0 %>
+                    <%= time_ago_in_words(event.time) %>  ago
+                    <% elsif event.time - Time.now < 7.days %>
+                    <font color="red"><%= time_ago_in_words(event.time) %> away</font>
+                    <% else %>
+                    <%= time_ago_in_words(event.time) %> away
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Location</button>
+              <div class="card-body">
+                <p class="card-text">
+                  <%= event.location %>
+                </p>
+              </div>
+            </div>
             
             </div>
             <div class="col-md-6">
-              
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Event Description</button>
+                <div class="card-body">
+                  <p class="card-text">
+                    <%= event.description %>
+                  </p>
+                </div>
+              </div>
+              <div class="card mb-3" style="width: 100%">
+                <button type="button" class="btn btn-info">Hosted By</button>
+                <div class="card-body">
+                  <p class="card-text">
+                    <a href="/clubprofile/<%= Club.find_by(id: event.club_id).id %>">
+                      <%= Club.find_by(id: event.club_id).title %>
+                    </a>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row mt-3">
             <div class="col-md-12 text-center">
-              <a href="/events/<%= event.id %>" class="btn btn-outline-info">
-                View full profile
+              <% if event.users.ids.include? current_user.id %>
+              <a href="/delete_attendance/<%= Attendance.find_by(user_id: current_user.id, event_id: event.id).id %>" class="btn btn-danger btn-outline">
+                Undo RSVP 
               </a>
+              <% else %>
+              <form action="/create_attendance" method="post">
+              <input type="hidden" name="user_id" value="<%= current_user.id %>">
+              <input type="hidden" name="event_id" value="<%= event.id %>">
+                <button class="btn btn btn-outline-info">
+                  RSVP
+                </button>
+              </form>
+              <% end %>
             </div>
           </div>
         </div>
@@ -159,8 +218,8 @@
               <% @friend_hashs.each do |f| %>
               <li class="list-group-item">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="friend<%= @friend_count %>" name="friend<%= @friend_count %>" value="<%= f.fetch("id") %>">
-                  <label class="custom-control-label" for="friend<%= @friend_count %>">
+                  <input type="checkbox" class="custom-control-input" id="<%= event.id %>friend<%= @friend_count %>" name="<%= event.id %>friend<%= @friend_count %>" value="<%= f.fetch("id") %>">
+                  <label class="custom-control-label" for="<%= event.id %>friend<%= @friend_count %>">
                     <a href="/users/<%= f.fetch("id") %>">
                       <% friend = User.find_by(id: f.fetch("id")) %>
                       <%= friend.firstname %> <%= friend.lastname %>
@@ -202,12 +261,12 @@
           <div class="row">
             <div class="col-md-12">
             <p style="font-size:1rem">
-              You're about to RSVP this event and add it to favorites.  
+              You're about to RSVP this event and add it to your favorites.  
             </p>
-            <p style="font-size:1rem">
-            You can configure reminders and notifications 
-            in your account settings. 
-            </p>
+            <!--<p style="font-size:1rem">-->
+            <!--You can configure reminders and notifications -->
+            <!--in your account settings. -->
+            <!--</p>-->
             
             </div>
           </div>
@@ -227,7 +286,82 @@
     </div>
   </div>
 </div>
-   </div>
+
+<% if event.users.include? current_user %>
+<div class="modal fade <%= event.id %>unrsvp"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="col-12 modal-title text-center">Undo RSVP for <%= event.title %>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h5>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+            <p style="font-size:1rem">
+              You're already RSVPed for this event.  
+            </p>
+            <p style="font-size:1rem">
+            You can configure reminders and notifications 
+            in your account settings. 
+            </p>
+            
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12 text-center">
+              <a href="/delete_attendance/<%= Attendance.find_by(user_id: current_user.id, event_id: event.id).id %>" class="btn btn-block btn-danger">
+                Undo RSVP 
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+<div class="modal fade <%= event.id %>eventpeople"  tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="col-12 modal-title text-center">People interested in "<%= event.title %>"
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </h5>
+      </div>
+      <div class="modal-body">
+          <div class="card-header">
+            <h5>
+                <%= event.users.count %> Members
+            </h5>
+          </div>
+          <ul class="list-group">
+              <% event.users.each do |user| %>
+              <li class="list-group-item">
+                <% if user.id == current_user.id %>
+                <a href="/mywall">
+                  <%= user.firstname %> <%= user.lastname %> [me]
+                </a>
+                <% else %>
+                  <a href="/users/<%= user.id %>">
+                      <%= user.firstname %> <%= user.lastname %>
+                  </a>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+   
     </div>
     <% count = count + 1 %>
     <% end %>

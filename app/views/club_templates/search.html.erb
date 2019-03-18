@@ -39,7 +39,7 @@
         </div>
         </br>
 
-<% if @eventfilter == 1 %>
+<!--<=% if @eventfilter == 1 %>
 <div class="card" style="width: 16rem;">
   <div class="card-header text-center">
     Event Preferences
@@ -48,64 +48,64 @@
     <li class="list-group-item">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="friendfilter" name="friendfilter" value="1"
-        <% if @friendfilter.present? %>
+        <=% if @friendfilter.present? %>
         checked 
-        <% end %>>
+        <=% end %>>
         <label class="custom-control-label" for="friendfilter">Flagged by Friends</label>
       </div>
     </li>
     <li class="list-group-item">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="foodfilter" name="foodfilter" value="1"
-        <% if @foodfilter.present? %>
+        <=% if @foodfilter.present? %>
         checked 
-        <% end %>>
+        <=% end %>>
         <label class="custom-control-label" for="foodfilter">Free food</label>
       </div>
     </li>
     <li class="list-group-item">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="admissionfilter" name="admissionfilter" value="1"
-        <% if @admissionfilter.present? %>
+        <=% if @admissionfilter.present? %>
         checked 
-        <% end %>>
+        <=% end %>>
         <label class="custom-control-label" for="admissionfilter">Free Admission</label>
       </div>
     </li>
     <li class="list-group-item">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="soonfilter" name="soonfilter" value="1"
-        <% if @soonfilter.present? %>
+        <=% if @soonfilter.present? %>
         checked 
-        <% end %>>
+        <=% end %>>
         <label class="custom-control-label" for="soonfilter">Happening Soon</label>
       </div>
     </li>
   </ul>
 </div>
 </br>
-<% end %>
+<=% end %>
 
 <div class="card" style="width: 16rem;">
   <div class="card-header text-center">
     Categories
   </div>
   <ul class="list-group list-group-flush">
-    <% @categories.each_with_index do |category, index| %>
+    <=% @categories.each_with_index do |category, index| %>
     <li class="list-group-item">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="<%= category.id %>" name="<%= category.description %>"
-        <% if @categoryexists[index] == 1 %>
+        <input type="checkbox" class="custom-control-input" id="<=%= category.id %>" name="<=%= category.description %>"
+        <=% if @categoryexists[index] == 1 %>
         checked
-        <% end %>>
-        <label class="custom-control-label" for="<%= category.id%>"><%= category.description %></label>
+        <=% end %>>
+        <label class="custom-control-label" for="<=%= category.id%>"><=%= category.description %></label>
       </div>
     </li>
-<% end %>
+<=% end %>
   </ul>
 </div>
 </form>
-
+-->
 </div>
 
 <!--IF CLUBS ARE DISPLAYED -->
@@ -393,7 +393,16 @@
                 <button type="button" class="btn btn-info">When</button>
                 <div class="card-body">
                   <p class="card-text">
-                    <%= event.time %>
+                    <%= event.time.strftime("%a, %b %e at %l %p") %>
+                  </p>
+                  <p class="card-text">
+                    <% if Time.now - event.time > 0 %>
+                    <%= time_ago_in_words(event.time) %>  ago
+                    <% elsif event.time - Time.now < 7.days %>
+                    <font color="red"><%= time_ago_in_words(event.time) %> away</font>
+                    <% else %>
+                    <%= time_ago_in_words(event.time) %> away
+                    <% end %>
                   </p>
                 </div>
               </div>
@@ -430,6 +439,11 @@
           </div>
           <div class="row mt-3">
             <div class="col-md-12 text-center">
+              <% if event.users.ids.include? current_user.id %>
+              <a href="/delete_attendance/<%= Attendance.find_by(user_id: current_user.id, event_id: event.id).id %>" class="btn btn-danger btn-outline">
+                Undo RSVP 
+              </a>
+              <% else %>
               <form action="/create_attendance" method="post">
               <input type="hidden" name="user_id" value="<%= current_user.id %>">
               <input type="hidden" name="event_id" value="<%= event.id %>">
@@ -437,6 +451,7 @@
                   RSVP
                 </button>
               </form>
+              <% end %>
             </div>
           </div>
         </div>
