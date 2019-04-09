@@ -4,9 +4,11 @@
 
 In this project, I built a prototype for a web-application design from the Google 2019 Tech challenge.
 
-### Here is [our target](https://msm-associations-target.herokuapp.com/).
+Design presentation: https://google-design-rso-webapp.herokuapp.com/home
 
-(Don't worry about styling -- focus on functionality only.)
+### Here is [the final product](https://rso-webapp.herokuapp.com/mywall).
+
+
 
 ## Setup
 
