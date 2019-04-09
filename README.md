@@ -10,17 +10,13 @@ Design presentation: https://google-design-rso-webapp.herokuapp.com/home
 
 
 
-## Setup
+## Process
 
-## Standard Workflow
+## Database
 
- 1. From [your Cloud9 repositories list](https://c9.io/account/repos), set up a workspace [as usual](https://guides.firstdraft.com/starting-on-a-project-in-cloud9).
- 1. Set up the project: `bin/setup`
- 1. Start the web server by clicking "Run Project".
- 1. Navigate to your live application preview.
- 1. As you work, remember to navigate to `/git` and **commit often as you work.**
- 1. Make new branches freely to experiment! _Especially_ before starting on a new task.
- 1. Run `rails grade` as often as you like to see how you are doing, but **make sure you test your app manually first to make sure it matches the target's behavior first**.
+ 1. I created data tables for all of my Classes (including users, clubs, events, favorites, categories, suggestions) and set up relations between them using rails database migrations.
+ 2. I implemented ActiveRecords validations to check the validity of inputted data, preserving the integrity of the database and displaying error messages when an action was not allowed.
+ 3. I wrote queries to search and filter various elements of data sets based on relationships and specific criteria. For instance, to build the social network in my app, I had to create several "friend/relationship" filters and maintain the statuses of these entries. 
 
 ## Two important notes about `rails console`
 
