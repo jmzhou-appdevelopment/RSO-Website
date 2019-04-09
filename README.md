@@ -1,8 +1,8 @@
-# Must See Movies Associations
+# Registered Student Organization WebApp
 
 ## Objective
 
-In this project, we'll practice associating rows from different tables to one another.
+In this project, I built a prototype for a web-application design from the Google 2019 Tech challenge.
 
 ### Here is [our target](https://msm-associations-target.herokuapp.com/).
 
